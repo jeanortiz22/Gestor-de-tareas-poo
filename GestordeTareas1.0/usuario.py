@@ -92,10 +92,10 @@ class Usuarios:
                         print("Inicio de sesión exitoso.")
                         return id_usuario
                     else:
-                        print("Usuario o contrasena incorrecta.")
+                        print("Usuario o contraseña incorrecta .")
                         return None
                 else:
-                    print("Usuario o contrasena incorrecta.")
+                    print("Usuario o contraseña incorrecta.")
                     return None
 
         except Exception as e:
