@@ -2,11 +2,12 @@ from scr.conexion import CConexion
 
 
 class Usuarios:
-    def __init__(self, nombre='', correo='', contrasena=''):
+    def __init__(self, nombre='', correo='', contrasena='', confirmar_contrasena =''):
         # Atributos del usuario
         self.nombre = nombre
         self.correo = correo
         self.contrasena = contrasena
+        self.confirmar_contrasena = confirmar_contrasena
         # Crear una instancia de CConexion
         self.conexion = CConexion()
 
@@ -23,6 +24,9 @@ class Usuarios:
         # Verificar que la longitud del nombre no supere los 30 caracteres
         if len(self.nombre) > 30:
             print("El nombre de usuario no puede superar los 30 caracteres")
+            return
+        if self.contrasena != self.confirmar_contrasena:
+            print("Error  Las contraseñas no coinciden.")
             return
 
         # Obtener la conexión a la base de datos
@@ -55,6 +59,7 @@ class Usuarios:
 
                 # Confirmar los cambios en la base de datos
                 conn.commit()
+
 
                 print("Usuario registrado exitosamente.")
                 return True
