@@ -4,10 +4,10 @@ from usuario import Usuarios
 from datetime import datetime
 
 
-
 # Menú principal
 def menu():
     while True:
+
         print("\n--- Menú Principal ---")
         print("1. Iniciar sesión")
         print("2. Registrar usuario")
@@ -63,14 +63,27 @@ def menu_tareas(Id_usuario):
             fecha_vencimiento_str = input("Ingrese la fecha de vencimiento (formato: YYYY-MM-DD HH:MM): ")
             estado = input("Ingrese el estado (Completa, Incompleta, Pendiente): ")
             prioridad = input("Ingrese el nivel de importancia del proyecto (Alta, Media, Baja): ")
+            fecha_recordatorio_str = input("Ingrese la fecha del recordatorio (formato: YYYY-MM-DD HH:MM, opcional): ")
+
             try:
                 fecha_vencimiento = datetime.strptime(fecha_vencimiento_str, "%Y-%m-%d %H:%M")
             except ValueError:
                 print("Formato de fecha y hora no válido. Intente nuevamente.")
                 continue
 
-            tarea = Tarea(titulo, descripcion, None, fecha_vencimiento, estado, prioridad, Id_usuario)
+            if fecha_recordatorio_str:
+                try:
+                    fecha_recordatorio = datetime.strptime(fecha_recordatorio_str, "%Y-%m-%d %H:%M")
+                except ValueError:
+                    print("Formato de fecha y hora del recordatorio no válido. Intente nuevamente.")
+                    continue
+            else:
+                fecha_recordatorio = None
+
+            tarea = Tarea(titulo, descripcion, None, fecha_vencimiento, estado, prioridad, Id_usuario,
+                          fecha_recordatorio)
             tarea.agregar_tarea()
+
 
         elif opcion == '2':
             print("Editando tarea...")

@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Tarea:
-    def __init__(self,titulo='', descripcion='', fecha_creacion='', fecha_vencimiento='', estado='', prioridad='', id_usuario=''):
+    def __init__(self,titulo='', descripcion='', fecha_creacion='', fecha_vencimiento='', estado='', prioridad='', id_usuario='', fecha_recordatorio=None):
         self.titulo = titulo
         self.descripcion = descripcion
         self.fecha_creacion = fecha_creacion
@@ -12,6 +12,7 @@ class Tarea:
         self.estado = estado
         self.prioridad = prioridad
         self.id_usuario = id_usuario
+        self.fecha_recordatorio = fecha_recordatorio
 
         # Recibe una conexión a la base de datos
         self.conexion = CConexion()
@@ -19,13 +20,12 @@ class Tarea:
     def agregar_tarea(self):
         conn = None
         try:
-            # Conectarse a la base de datos
             conn = self.conexion.ConexionBaseDeDatos()
             with conn.cursor() as cursor:
                 # Crear la consulta SQL para insertar una nueva tarea
                 insertar_sql = """
                 INSERT INTO Tarea (titulo, descripcion, fecha_creacion, fecha_vencimiento, estado, prioridad, id_usuario)
-                VALUES (%s, %s, %s, %s, %s, %s, %s);
+                VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_tarea;
                 """
                 # Definir los valores de la tarea
                 valores = (
@@ -39,8 +39,19 @@ class Tarea:
                 )
                 # Ejecutar la consulta
                 cursor.execute(insertar_sql, valores)
-                # Confirmar los cambios
+                # Recuperar el id_tarea recién insertado
+                id_tarea = cursor.fetchone()[0]  # Aquí obtenemos el id_tarea
                 conn.commit()
+
+                # Insertar el recordatorio si existe
+                if self.fecha_recordatorio:
+                    insertar_recordatorio_sql = """
+                    INSERT INTO Recordatorio (id_tarea, fecha_recordatorio)
+                    VALUES (%s, %s);
+                    """
+                    cursor.execute(insertar_recordatorio_sql, (id_tarea, self.fecha_recordatorio))
+                    conn.commit()
+
                 print("Tarea agregada exitosamente.")
 
         except Exception as e:
@@ -49,7 +60,6 @@ class Tarea:
                 conn.rollback()
 
         finally:
-            # Asegurarse de cerrar la conexión a la base de datos
             if conn:
                 conn.close()
 
@@ -182,4 +192,61 @@ class Tarea:
         finally:
             conn.close()
 
+    def agregar_recordatorio(self, id_tarea, fecha_recordatorio):
+        conn = None
+        try:
+            # Conectarse a la base de datos
+            conn = self.conexion.ConexionBaseDeDatos()
+            with conn.cursor() as cursor:
+                # Crear la consulta SQL para insertar un recordatorio
+                insertar_sql = """
+                INSERT INTO Recordatorios (fecha_recordatorio, id_tarea)
+                VALUES (%s, %s);
+                """
+                # Definir los valores del recordatorio
+                valores = (fecha_recordatorio, id_tarea)
+                # Ejecutar la consulta
+                cursor.execute(insertar_sql, valores)
+                # Confirmar los cambios
+                conn.commit()
+                print("Recordatorio agregado exitosamente.")
+
+        except Exception as e:
+            print(f"Error al agregar el recordatorio: {e}")
+            if conn:
+                conn.rollback()
+
+        finally:
+            # Asegurarse de cerrar la conexión a la base de datos
+            if conn:
+                conn.close()
+
+def verificar_recordatorios(id_usuario):
+    tarea = Tarea()
+    conn = tarea.conexion.ConexionBaseDeDatos()
+    if conn is None:
+        print("Error al conectar a la base de datos.")
+        return
+
+    try:
+        with conn.cursor() as cursor:
+            # Consulta para obtener recordatorios próximos
+            sql = """
+            SELECT R.fecha_recordatorio, T.titulo 
+            FROM Recordatorios R 
+            JOIN Tarea T ON R.id_tarea = T.id_tarea 
+            WHERE T.id_usuario = %s AND R.fecha_recordatorio <= %s;
+            """
+            cursor.execute(sql, (id_usuario, datetime.now() + timedelta(minutes=5)))
+
+            recordatorios = cursor.fetchall()
+            for fecha_recordatorio, titulo in recordatorios:
+                print(f"¡Recordatorio! La tarea '{titulo}' está programada para recordarse ahora o pronto.")
+
+    except Exception as e:
+        print(f"Error al verificar los recordatorios: {e}")
+
+    finally:
+        if conn:
+            conn.close()
 
