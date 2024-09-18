@@ -1,4 +1,5 @@
 from scr.conexion import CConexion
+import re
 
 
 class Usuarios:
@@ -21,12 +22,21 @@ class Usuarios:
             print("Correo no válido")
             return
 
-        # Verificar que la longitud del nombre no supere los 30 caracteres
-        if len(self.nombre) > 30:
-            print("El nombre de usuario no puede superar los 30 caracteres")
+        # Validar nombre de usuario (3 a 30 caracteres y solo letras, números y guiones bajos)
+        if not (3 <= len(self.nombre) <= 30 and re.match(r'^[a-zA-Z0-9_]+$', self.nombre)):
+            print("Nombre de usuario no válido. Debe tener entre 3 y 30 caracteres y solo contener letras, números y guiones bajos.")
             return
+
         if self.contrasena != self.confirmar_contrasena:
             print("Error  Las contraseñas no coinciden.")
+            return
+
+        if len(self.contrasena) <= 8:
+            print("La contraseña debe tener más de 8 caracteres.")
+            return
+
+        if not re.search(r'\d', self.contrasena):
+            print("La contraseña debe contener al menos un número.")
             return
 
         # Obtener la conexión a la base de datos
