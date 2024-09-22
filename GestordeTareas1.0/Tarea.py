@@ -7,8 +7,6 @@ class Tarea:
         self.descripcion = descripcion
         self.fecha_creacion = fecha_creacion
         self.fecha_vencimiento = fecha_vencimiento
-        self.estado = estado
-        self.prioridad = prioridad
         self.id_usuario = id_usuario
         self.fecha_recordatorio = fecha_recordatorio
 
@@ -29,7 +27,7 @@ class Tarea:
             with conn.cursor() as cursor:
                 # Crear la consulta SQL para insertar una nueva tarea
                 insertar_sql = """
-                INSERT INTO Tarea (titulo, descripcion, fecha_creacion, fecha_vencimiento, estado, prioridad, id_usuario)
+                INSERT INTO Tarea (titulo, descripcion, fecha_creacion, fecha_vencimiento, id_usuario)
                 VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_tarea;
                 """
                 # Definir los valores de la tarea
@@ -38,8 +36,6 @@ class Tarea:
                     self.descripcion,
                     datetime.now(),  # Fecha de creación actual
                     self.fecha_vencimiento,
-                    self.estado,
-                    self.prioridad,
                     self.id_usuario
                 )
                 # Ejecutar la consulta

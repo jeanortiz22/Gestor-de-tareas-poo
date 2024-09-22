@@ -5,6 +5,11 @@ from Recordatorio import Recordatorio
 from datetime import datetime
 
 
+# Constantes para facilitar el uso de opciones válidas
+ESTADOS_VALIDOS = ['Completa', 'Incompleta', 'Pendiente']
+PRIORIDADES_VALIDAS = ['Alta', 'Media', 'Baja']
+
+
 def menu():
     while True:
         print("\n--- Menú Principal ---")
@@ -32,6 +37,8 @@ def iniciar_sesion():
     Id_usuario = usuario.login(correo, contrasena)
     if Id_usuario:
         menu_tareas(Id_usuario)
+    else:
+        print("Error de autenticación. Por favor, verifique sus credenciales.")
 
 
 def registrar_usuario():
@@ -41,7 +48,7 @@ def registrar_usuario():
     confirmar_contrasena = input("Confirme su contraseña: ")
 
     if contrasena == confirmar_contrasena:
-        usuario = Usuarios(nombre, correo, contrasena, confirmar_contrasena)
+        usuario = Usuarios(nombre, correo, contrasena)
         usuario.registrarusuarios()
         print("Usuario registrado con éxito.")
     else:
@@ -88,12 +95,10 @@ def agregar_tarea(Id_usuario):
         print("Formato de fecha y hora de vencimiento no válido. Se omitirá la tarea.")
         return
 
-    estado = input("Ingrese el estado (Completa, Incompleta, Pendiente): ")
-    estadoM= estado.capitalize()
-    prioridad = input("Ingrese el nivel de importancia del proyecto (Alta, Media, Baja): ")
-    prioridadM =prioridad.capitalize()
+    estado = validar_opcion("estado", ESTADOS_VALIDOS)
+    prioridad = validar_opcion("prioridad", PRIORIDADES_VALIDAS)
 
-    tarea = Tarea(titulo, descripcion, None, fecha_vencimiento, estadoM, prioridadM, Id_usuario, None)
+    tarea = Tarea(titulo, descripcion, None, fecha_vencimiento, estado, prioridad, Id_usuario, None)
     tarea.agregar_tarea()
 
 
@@ -103,24 +108,14 @@ def editar_tarea(Id_usuario):
     titulo_nuevo = input("Ingrese el nuevo título de la tarea: ")
     descripcion_nueva = input("Ingrese la nueva descripción de la tarea: ")
 
-    while True:
-        try:
-            anio = int(input("Ingrese el año de vencimiento (YYYY): "))
-            mes = int(input("Ingrese el mes de vencimiento (MM): "))
-            dia = int(input("Ingrese el día de vencimiento (DD): "))
-            hora = int(input("Ingrese la hora de vencimiento (HH, formato 24 horas): "))
-            minuto = int(input("Ingrese los minutos (MM): "))
+    try:
+        fecha_vencimiento_nueva = pedir_fecha_vencimiento()
+    except ValueError:
+        print("Formato de fecha y hora no válido. Intente nuevamente.")
+        return
 
-            # Crear la fecha a partir de los valores ingresados
-            fecha_vencimiento_nueva = datetime(anio, mes, dia, hora, minuto)
-            break
-        except ValueError:
-            print("Formato de fecha y hora no válido. Intente nuevamente.")
-
-    # Llamar a la función de editar tarea
     tarea = Tarea()
     tarea.editar_tarea(numero_tarea, Id_usuario, titulo_nuevo, descripcion_nueva, fecha_vencimiento_nueva)
-
 
 
 def agregar_recordatorio(Id_usuario):
@@ -162,21 +157,31 @@ def mostrar_tareas(Id_usuario):
 
 
 def pedir_fecha_vencimiento():
-    anio = int(input("Ingrese el año de vencimiento (YYYY): "))
-    mes = int(input("Ingrese el mes de vencimiento (MM): "))
-    dia = int(input("Ingrese el día de vencimiento (DD): "))
-    hora = int(input("Ingrese la hora de vencimiento (HH, formato 24 horas): "))
-    minuto = int(input("Ingrese los minutos (MM): "))
-    return datetime(anio, mes, dia, hora, minuto)
+    return pedir_fecha("vencimiento")
 
 
 def pedir_fecha_recordatorio():
-    anio = int(input("Ingrese el año del recordatorio (YYYY): "))
-    mes = int(input("Ingrese el mes del recordatorio (MM): "))
-    dia = int(input("Ingrese el día del recordatorio (DD): "))
-    hora = int(input("Ingrese la hora del recordatorio (HH, formato 24 horas): "))
-    minuto = int(input("Ingrese los minutos del recordatorio (MM): "))
-    return datetime(anio, mes, dia, hora, minuto)
+    return pedir_fecha("recordatorio")
+
+
+def pedir_fecha(tipo_fecha):
+    try:
+        anio = int(input(f"Ingrese el año de {tipo_fecha} (YYYY): "))
+        mes = int(input(f"Ingrese el mes de {tipo_fecha} (MM): "))
+        dia = int(input(f"Ingrese el día de {tipo_fecha} (DD): "))
+        hora = int(input(f"Ingrese la hora de {tipo_fecha} (HH, formato 24 horas): "))
+        minuto = int(input(f"Ingrese los minutos de {tipo_fecha} (MM): "))
+        return datetime(anio, mes, dia, hora, minuto)
+    except ValueError:
+        raise ValueError("Fecha no válida.")
+
+
+def validar_opcion(tipo, opciones_validas):
+    opcion = input(f"Ingrese el {tipo} ({', '.join(opciones_validas)}): ").capitalize()
+    while opcion not in opciones_validas:
+        print(f"Opción inválida. Ingrese un {tipo} válido.")
+        opcion = input(f"Ingrese el {tipo} ({', '.join(opciones_validas)}): ").capitalize()
+    return opcion
 
 
 # Llamar al menú principal
