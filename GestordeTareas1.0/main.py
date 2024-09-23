@@ -63,7 +63,8 @@ def menu_tareas(Id_usuario):
         print("3. Agregar recordatorio para tarea")
         print("4. Eliminar tarea")
         print("5. Mostrar tareas")
-        print("6. Cerrar sesión")
+        print("6. Buscar tarea")  # Nueva opción
+        print("7. Cerrar sesión")
 
         opcion = input("Seleccione una opción: ")
 
@@ -78,11 +79,29 @@ def menu_tareas(Id_usuario):
         elif opcion == '5':
             mostrar_tareas(Id_usuario)
         elif opcion == '6':
+            buscar_tarea(Id_usuario)  # Llama a la función para buscar tareas
+        elif opcion == '7':
             print("Cerrando sesión...")
             break
         else:
             print("Opción no válida, intente nuevamente.")
 
+
+def buscar_tarea(Id_usuario):
+    print("Buscar tareas...")
+    titulo = input("Ingrese el título de la tarea a buscar (o deje en blanco): ")
+    descripcion = input("Ingrese la descripción de la tarea a buscar (o deje en blanco): ")
+    estado = input(f"Ingrese el estado de la tarea ({', '.join(ESTADOS_VALIDOS)} o deje en blanco): ").capitalize()
+    prioridad = input(f"Ingrese la prioridad de la tarea ({', '.join(PRIORIDADES_VALIDAS)} o deje en blanco): ").capitalize()
+
+    try:
+        fecha_vencimiento = pedir_fecha_vencimiento() if input("¿Desea buscar por fecha de vencimiento? (S/N): ").upper() == 'S' else None
+    except ValueError:
+        print("Fecha de vencimiento no válida.")
+        fecha_vencimiento = None
+
+    tarea = Tarea()
+    tarea.buscar_tarea(titulo=titulo, descripcion=descripcion, estado=estado, prioridad=prioridad, fecha_vencimiento=fecha_vencimiento)
 
 def agregar_tarea(Id_usuario):
     print("Agregando tarea...")
