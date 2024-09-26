@@ -2,17 +2,15 @@ from scr.conexion import CConexion
 from datetime import datetime
 
 class Tarea:
-    def __init__(self, titulo='', descripcion='', fecha_creacion='', fecha_vencimiento='', estado='', prioridad='', id_usuario='', fecha_recordatorio=None):
+    def __init__(self, titulo='', descripcion='', fecha_creacion='', fecha_vencimiento='', estado=None, prioridad=None, id_usuario='', fecha_recordatorio=None):
         self.titulo = titulo
         self.descripcion = descripcion
         self.fecha_creacion = fecha_creacion
         self.fecha_vencimiento = fecha_vencimiento
-        self.estado = estado
-        self.prioridad = prioridad
+        self.estado = estado  # Inicialmente None
+        self.prioridad = prioridad  # Inicialmente None
         self.id_usuario = id_usuario
         self.fecha_recordatorio = fecha_recordatorio
-
-        # Recibe una conexión a la base de datos
         self.conexion = CConexion()
 
     def agregar_tarea(self):
@@ -23,28 +21,25 @@ class Tarea:
         if len(self.titulo) == 0:
             print("El titulo tiene que contener al menos 1 letra")
             return
+
         conn = None
         try:
             conn = self.conexion.ConexionBaseDeDatos()
             with conn.cursor() as cursor:
-                # Crear la consulta SQL para insertar una nueva tarea
                 insertar_sql = """
                 INSERT INTO Tarea (titulo, descripcion, fecha_creacion, fecha_vencimiento, estado, prioridad, id_usuario)
                 VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_tarea;
                 """
-                # Definir los valores de la tarea
                 valores = (
                     self.titulo,
                     self.descripcion,
                     datetime.now(),  # Fecha de creación actual
                     self.fecha_vencimiento,
-                    self.estado,
-                    self.prioridad,
+                    self.estado,  # Esto será None hasta que se asigne una categoría
+                    self.prioridad,  # Esto será None hasta que se asigne una etiqueta
                     self.id_usuario
                 )
-                # Ejecutar la consulta
                 cursor.execute(insertar_sql, valores)
-                # Recuperar el id_tarea recién insertado
                 id_tarea = cursor.fetchone()[0]
                 conn.commit()
 
@@ -58,6 +53,91 @@ class Tarea:
         finally:
             if conn:
                 conn.close()
+
+    def asignar_etiqueta(self, id_tarea, id_usuario, etiqueta):
+        conn = None
+        try:
+            conn = self.conexion.ConexionBaseDeDatos()
+            with conn.cursor() as cursor:
+                verificar_sql = """
+                SELECT 1 FROM Tarea WHERE id_tarea = %s AND id_usuario = %s;
+                """
+                cursor.execute(verificar_sql, (id_tarea, id_usuario))
+                if cursor.fetchone() is None:
+                    print("No se encontró una tarea con ese ID para el usuario especificado.")
+                    return
+
+                actualizar_sql = """
+                UPDATE Tarea
+                SET prioridad = %s  -- Usamos el campo 'prioridad' como 'etiqueta'
+                WHERE id_tarea = %s AND id_usuario = %s;
+                """
+                cursor.execute(actualizar_sql, (etiqueta, id_tarea, id_usuario))
+                conn.commit()
+
+                if cursor.rowcount > 0:
+                    print("Etiqueta (prioridad) asignada exitosamente.")
+                else:
+                    print("No se pudo asignar la etiqueta.")
+
+        except Exception as e:
+            print(f"Error al asignar la etiqueta: {e}")
+            if conn:
+                conn.rollback()
+
+        finally:
+            if conn:
+                conn.close()
+
+    def asignar_categoria(self, id_tarea, id_usuario, categoria):
+        conn = None
+        try:
+            conn = self.conexion.ConexionBaseDeDatos()
+            with conn.cursor() as cursor:
+                verificar_sql = """
+                SELECT 1 FROM Tarea WHERE id_tarea = %s AND id_usuario = %s;
+                """
+                cursor.execute(verificar_sql, (id_tarea, id_usuario))
+                if cursor.fetchone() is None:
+                    print("No se encontró una tarea con ese ID para el usuario especificado.")
+                    return
+
+                actualizar_sql = """
+                UPDATE Tarea
+                SET estado = %s  -- Usamos el campo 'estado' como 'categoría'
+                WHERE id_tarea = %s AND id_usuario = %s;
+                """
+                cursor.execute(actualizar_sql, (categoria, id_tarea, id_usuario))
+                conn.commit()
+
+                if cursor.rowcount > 0:
+                    print("Categoría (estado) asignada exitosamente.")
+                else:
+                    print("No se pudo asignar la categoría.")
+
+        except Exception as e:
+            print(f"Error al asignar la categoría: {e}")
+            if conn:
+                conn.rollback()
+
+        finally:
+            if conn:
+                conn.close()
+
+    def hay_tareas(self, id_usuario):
+        conn = self.conexion.ConexionBaseDeDatos()
+        try:
+            with conn.cursor() as cursor:
+                sql = "SELECT 1 FROM Tarea WHERE id_usuario = %s;"
+                cursor.execute(sql, (id_usuario,))
+                return cursor.fetchone() is not None
+
+        except Exception as e:
+            print(f"Error al verificar tareas: {e}")
+            return False
+
+        finally:
+            conn.close()
 
     def editar_tarea(self, id_tarea, id_usuario, nuevo_titulo=None, nueva_descripcion=None,
                      nueva_fecha_vencimiento=None):

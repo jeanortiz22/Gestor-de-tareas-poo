@@ -63,8 +63,10 @@ def menu_tareas(Id_usuario):
         print("3. Agregar recordatorio para tarea")
         print("4. Eliminar tarea")
         print("5. Mostrar tareas")
-        print("6. Buscar tarea")  # Nueva opción
-        print("7. Cerrar sesión")
+        print("6. Buscar tarea")
+        print("7. Asignar etiqueta a tarea")  # Nueva opción
+        print("8. Asignar categoría a tarea")  # Nueva opción
+        print("9. Cerrar sesión")
 
         opcion = input("Seleccione una opción: ")
 
@@ -79,12 +81,54 @@ def menu_tareas(Id_usuario):
         elif opcion == '5':
             mostrar_tareas(Id_usuario)
         elif opcion == '6':
-            buscar_tarea(Id_usuario)  # Llama a la función para buscar tareas
+            buscar_tarea(Id_usuario)
         elif opcion == '7':
+            asignar_etiqueta(Id_usuario)  # Llama a la función para asignar etiqueta
+        elif opcion == '8':
+            asignar_categoria(Id_usuario)  # Llama a la función para asignar categoría
+        elif opcion == '9':
             print("Cerrando sesión...")
             break
         else:
             print("Opción no válida, intente nuevamente.")
+
+
+def asignar_etiqueta(Id_usuario):
+    tarea = Tarea()
+    if not tarea.hay_tareas(Id_usuario):
+        print("No hay tareas disponibles para asignar una etiqueta.")
+        return
+
+    numero_tarea = input("Ingrese el número de la tarea para asignar etiqueta (o escriba 'Mostrar' para ver las tareas): ")
+    if numero_tarea.lower() == 'mostrar':
+        mostrar_tareas(Id_usuario)
+        numero_tarea = input("Ingrese el número de la tarea a la que desea asignar etiqueta: ")
+
+    etiqueta = validar_opcion("prioridad", PRIORIDADES_VALIDAS)
+    tarea.asignar_etiqueta(numero_tarea, Id_usuario, etiqueta)
+
+
+def asignar_categoria(Id_usuario):
+    tarea = Tarea()
+    if not tarea.hay_tareas(Id_usuario):
+        print("No hay tareas disponibles para asignar una categoría.")
+        return
+
+    numero_tarea = input("Ingrese el número de la tarea para asignar categoría (o escriba 'Mostrar' para ver las tareas): ")
+    if numero_tarea.lower() == 'mostrar':
+        mostrar_tareas(Id_usuario)
+        numero_tarea = input("Ingrese el número de la tarea a la que desea asignar categoría: ")
+
+    categoria = validar_opcion("estado", ESTADOS_VALIDOS)
+    tarea.asignar_categoria(numero_tarea, Id_usuario, categoria)
+
+
+def validar_opcion(tipo, opciones_validas):
+    opcion = input(f"Ingrese la {tipo} ({', '.join(opciones_validas)}): ").capitalize()
+    while opcion not in opciones_validas:
+        print(f"Opción inválida. Ingrese una {tipo} válida.")
+        opcion = input(f"Ingrese la {tipo} ({', '.join(opciones_validas)}): ").capitalize()
+    return opcion
 
 
 def buscar_tarea(Id_usuario):
@@ -114,12 +158,9 @@ def agregar_tarea(Id_usuario):
         print("Formato de fecha y hora de vencimiento no válido. Se omitirá la tarea.")
         return
 
-    estado = validar_opcion("estado", ESTADOS_VALIDOS)
-    prioridad = validar_opcion("prioridad", PRIORIDADES_VALIDAS)
-
-    tarea = Tarea(titulo, descripcion, None, fecha_vencimiento, estado, prioridad, Id_usuario, None)
+    # Ya no pedimos estado y prioridad (etiqueta y categoría)
+    tarea = Tarea(titulo, descripcion, None, fecha_vencimiento, None, None, Id_usuario, None)
     tarea.agregar_tarea()
-
 
 def editar_tarea(Id_usuario):
     print("Editando tarea...")
