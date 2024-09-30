@@ -42,13 +42,13 @@ def iniciar_sesion():
 
 
 def registrar_usuario():
-    nombre = input("Ingrese su nombre completo: ")
+    nombre = input("Ingrese su nombre de usuario(Debe tener entre 3 y 30 caracteres y solo contener letras, números o guiones bajos): ")
     correo = input("Ingrese su correo electrónico: ")
     contrasena = input("Ingrese una contraseña: ")
     confirmar_contrasena = input("Confirme su contraseña: ")
 
     if contrasena == confirmar_contrasena:
-        usuario = Usuarios(nombre, correo, contrasena)
+        usuario = Usuarios(nombre, correo, contrasena, confirmar_contrasena)
         usuario.registrarusuarios()
         print("Usuario registrado con éxito.")
     else:
