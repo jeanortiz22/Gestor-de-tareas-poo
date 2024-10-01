@@ -15,29 +15,30 @@ class Usuarios:
     def registrarusuarios(self):
         if not self.correo or not self.nombre or not self.contrasena:
             print("Tienes que ingresar todos los datos")
-            return
+            return False,"Tienes que ingresar todos los datos"
 
         # Verificar que el correo contenga "@" y "."
         if "@" not in self.correo or "." not in self.correo.split("@")[-1]:
             print("Correo no válido")
-            return
+            return False, "Correo no válido"
 
         # Validar nombre de usuario (3 a 30 caracteres y solo letras, números y guiones bajos)
-        if not (3 <= len(self.nombre) <= 30 and re.match(r'^[a-zA-Z0-9_]+$', self.nombre)):
-            print("Nombre de usuario no válido. Debe tener entre 3 y 30 caracteres y solo contener letras, números y guiones bajos.")
-            return
+        # Validar nombre de usuario (3 a 30 caracteres y solo letras, números, guiones bajos y espacios)
+        if not (3 <= len(self.nombre) <= 30 and re.match(r'^[a-zA-Z0-9_ ]+$', self.nombre)):
+            print("Nombre de usuario no válido. Debe tener entre 3 y 30 caracteres y solo contener letras, números, guiones bajos y espacios.")
+            return False, "Nombre de usuario no válido. Debe tener entre 3 y 30 caracteres y solo contener letras, números, guiones bajos y espacios."
 
         if self.contrasena != self.confirmar_contrasena:
             print("Error  Las contraseñas no coinciden.")
-            return
+            return False,"Error  Las contraseñas no coinciden."
 
         if len(self.contrasena) <= 8:
             print("La contraseña debe tener más de 8 caracteres.")
-            return
+            return False,"La contraseña debe tener más de 8 caracteres."
 
         if not re.search(r'\d', self.contrasena):
             print("La contraseña debe contener al menos un número.")
-            return
+            return False,"La contraseña debe contener al menos un número."
 
         # Obtener la conexión a la base de datos
         conn = self.conexion.ConexionBaseDeDatos()
@@ -55,7 +56,7 @@ class Usuarios:
 
                 if resultado:
                     print("El correo ya está registrado")
-                    return
+                    return False,"El correo ya está registrado"
 
                 # Consulta SQL para insertar un nuevo usuario
                 sql = """
@@ -72,7 +73,7 @@ class Usuarios:
 
 
                 print("Usuario registrado exitosamente.")
-                return True
+                return True,"Usuario registrado exitosamente."
 
         except Exception as e:
             # Imprimir el error en caso de que algo salga mal
@@ -105,13 +106,13 @@ class Usuarios:
                     # Comparar la contraseña ingresada con la almacenada en la base de datos
                     if contrasena == stored_password:
                         print("Inicio de sesión exitoso.")
-                        return id_usuario
+                        return True, id_usuario
                     else:
                         print("Usuario o contraseña incorrecta .")
-                        return None
+                        return None, "Usuario o contraseña incorrecta ."
                 else:
-                    print("Usuario o contraseña incorrecta.")
-                    return None
+                    print("Usuario o contraseña incorrecta .")
+                    return None,"Usuario o contraseña incorrecta."
 
         except Exception as e:
             # Imprimir el error en caso de que algo salga mal

@@ -2,13 +2,28 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>970</width>
-    <height>689</height>
+    <width>1080</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1080</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1080</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -20,17 +35,20 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>240</y>
+      <x>380</x>
+      <y>250</y>
       <width>371</width>
-      <height>271</height>
+      <height>291</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(190, 190, 190);
 border-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));</string>
     </property>
-    <widget class="QTextEdit" name="Correo">
+    <widget class="QTextEdit" name="INCorreo">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -44,7 +62,7 @@ border-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0,
 font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="Contrasena">
+    <widget class="QTextEdit" name="INContrasena">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -58,11 +76,11 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
 font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="Registro">
+    <widget class="QPushButton" name="Ingresarboton">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>180</y>
+       <x>100</x>
+       <y>190</y>
        <width>151</width>
        <height>41</height>
       </rect>
@@ -76,7 +94,7 @@ font: 87 12pt &quot;Segoe UI Black&quot;;</string>
       <string>Ingresesar</string>
      </property>
     </widget>
-    <widget class="QLabel" name="Registrarse_3">
+    <widget class="QLabel" name="Email">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -112,7 +130,7 @@ background-color: rgb(190, 190, 190);
       <enum>Qt::PlainText</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="Registrarse_4">
+    <widget class="QLabel" name="Contrasena">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -148,15 +166,35 @@ background-color: rgb(190, 190, 190);
       <enum>Qt::PlainText</enum>
      </property>
     </widget>
+    <widget class="QLabel" name="MensajeEmergente">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>165</y>
+       <width>251</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 0, 4);</string>
+     </property>
+     <property name="text">
+      <string>MensajeEmergente</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
-   <widget class="QLabel" name="Registrarse">
+   <widget class="QLabel" name="Titulo">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>180</y>
+      <x>380</x>
+      <y>190</y>
       <width>371</width>
       <height>68</height>
      </rect>
@@ -185,7 +223,7 @@ background-color: rgb(190, 190, 190);
 </string>
     </property>
     <property name="text">
-     <string>Inicio de Seccion</string>
+     <string>Inicio de sesión</string>
     </property>
     <property name="textFormat">
      <enum>Qt::PlainText</enum>
@@ -200,7 +238,7 @@ background-color: rgb(190, 190, 190);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>970</width>
+     <width>1080</width>
      <height>21</height>
     </rect>
    </property>

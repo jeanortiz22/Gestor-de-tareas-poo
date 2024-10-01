@@ -6,12 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>970</width>
-    <height>689</height>
+    <width>1080</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1080</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1080</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(153, 153, 153);</string>
@@ -20,8 +35,8 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>130</y>
+      <x>380</x>
+      <y>180</y>
       <width>371</width>
       <height>461</height>
      </rect>
@@ -30,7 +45,7 @@
      <string notr="true">background-color: rgb(190, 190, 190);
 border-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));</string>
     </property>
-    <widget class="QTextEdit" name="Nombre">
+    <widget class="QTextEdit" name="INombre">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -44,7 +59,7 @@ border-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0,
 font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="Correo">
+    <widget class="QTextEdit" name="INCorreo">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -58,7 +73,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
 font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="Contrasena">
+    <widget class="QTextEdit" name="INContrasena">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -72,11 +87,11 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
 font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="Contrasena_2">
+    <widget class="QTextEdit" name="INcontrasena2">
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>310</y>
+       <y>290</y>
        <width>241</width>
        <height>41</height>
       </rect>
@@ -86,11 +101,11 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
 font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="Registro">
+    <widget class="QPushButton" name="BotonRegistro">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>370</y>
+       <x>110</x>
+       <y>400</y>
        <width>151</width>
        <height>41</height>
       </rect>
@@ -104,7 +119,7 @@ font: 87 12pt &quot;Segoe UI Black&quot;;</string>
       <string>Registrarse</string>
      </property>
     </widget>
-    <widget class="QLabel" name="Registrarse_2">
+    <widget class="QLabel" name="Nombre">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -140,7 +155,7 @@ background-color: rgb(190, 190, 190);
       <enum>Qt::PlainText</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="Registrarse_3">
+    <widget class="QLabel" name="Email">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -176,7 +191,7 @@ background-color: rgb(190, 190, 190);
       <enum>Qt::PlainText</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="Registrarse_4">
+    <widget class="QLabel" name="Contrasena">
      <property name="enabled">
       <bool>true</bool>
      </property>
@@ -184,7 +199,7 @@ background-color: rgb(190, 190, 190);
       <rect>
        <x>60</x>
        <y>180</y>
-       <width>91</width>
+       <width>121</width>
        <height>21</height>
       </rect>
      </property>
@@ -212,14 +227,14 @@ background-color: rgb(190, 190, 190);
       <enum>Qt::PlainText</enum>
      </property>
     </widget>
-    <widget class="QLabel" name="Registrarse_5">
+    <widget class="QLabel" name="ConfirmarContra">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>280</y>
+       <y>260</y>
        <width>201</width>
        <height>21</height>
       </rect>
@@ -248,15 +263,38 @@ background-color: rgb(190, 190, 190);
       <enum>Qt::PlainText</enum>
      </property>
     </widget>
+    <widget class="QLabel" name="MensajeEmergente">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>350</y>
+       <width>301</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 0, 4);</string>
+     </property>
+     <property name="text">
+      <string>MensajeEmergente</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
-   <widget class="QLabel" name="Registrarse">
+   <widget class="QLabel" name="Titulo">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>70</y>
+      <x>380</x>
+      <y>120</y>
       <width>371</width>
       <height>68</height>
      </rect>
@@ -300,7 +338,7 @@ background-color: rgb(190, 190, 190);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>970</width>
+     <width>1080</width>
      <height>21</height>
     </rect>
    </property>

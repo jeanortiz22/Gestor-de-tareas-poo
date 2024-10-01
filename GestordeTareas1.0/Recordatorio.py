@@ -52,3 +52,6 @@ class Recordatorio:
         finally:
             if conn:
                 conn.close()
+
+def intervalo():
+    pass

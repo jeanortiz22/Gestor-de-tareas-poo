@@ -34,8 +34,8 @@ def iniciar_sesion():
     correo = input("Digite su Correo: ")
     contrasena = input("Digite su contraseña: ")
     usuario = Usuarios()
-    Id_usuario = usuario.login(correo, contrasena)
-    if Id_usuario:
+    exito,Id_usuario = usuario.login(correo, contrasena)
+    if exito:
         menu_tareas(Id_usuario)
     else:
         print("Error de autenticación. Por favor, verifique sus credenciales.")
@@ -48,7 +48,7 @@ def registrar_usuario():
     confirmar_contrasena = input("Confirme su contraseña: ")
 
     if contrasena == confirmar_contrasena:
-        usuario = Usuarios(nombre, correo, contrasena)
+        usuario = Usuarios(nombre, correo, contrasena, confirmar_contrasena)
         usuario.registrarusuarios()
         print("Usuario registrado con éxito.")
     else:
