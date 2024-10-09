@@ -14,8 +14,8 @@ class Tarea:
         self.conexion = CConexion()
 
     def agregar_tarea(self):
-        if len(self.titulo) > 50:
-            print("El titulo de la tarea no puede exceder los 50 caracteres")
+        if len(self.titulo) > 30:
+            print("El titulo de la tarea no puede exceder los 30 caracteres")
             return
 
         if len(self.titulo) == 0:
@@ -142,8 +142,8 @@ class Tarea:
     def editar_tarea(self, id_tarea, id_usuario, nuevo_titulo=None, nueva_descripcion=None,
                      nueva_fecha_vencimiento=None):
 
-        if len(nuevo_titulo) > 50:
-            print("El titulo de la tarea no puede exceder los 50 caracteres")
+        if len(nuevo_titulo) > 30:
+            print("El titulo de la tarea no puede exceder los 30 caracteres")
             return
 
         if len(nuevo_titulo) == 0:
@@ -248,6 +248,7 @@ class Tarea:
                 cursor.execute(sql, (id_usuario,))
                 tareas = cursor.fetchall()
 
+
                 if tareas:
                     for tarea in tareas:
                         print(f"Tarea ID: {tarea[0]}")
@@ -257,8 +258,11 @@ class Tarea:
                         print(f"Estado: {tarea[4]}")
                         print(f"Prioridad: {tarea[5]}")
                         print("--------")
+
                 else:
                     print("No hay tareas para mostrar.")
+
+                return tareas
 
         except Exception as e:
             print(f"Error al obtener las tareas: {e}")

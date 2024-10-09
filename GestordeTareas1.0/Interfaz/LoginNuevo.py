@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from RegistroNuevo import Ui_MainWindow as UiRegistroWindow
+from Interfaz.untitled import Ui_MainWindow as UiPrincipalWindow
+
 from usuario import Usuarios
 
 
@@ -73,7 +75,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(190, 190, 190);\n"
 "\n"
 "")
-        self.Email.setTextFormat(QtCore.Qt.PlainText)
+
         self.Email.setObjectName("Email")
         self.Contrasena = QtWidgets.QLabel(self.widget)
         self.Contrasena.setEnabled(True)
@@ -93,12 +95,14 @@ class Ui_MainWindow(object):
 "")
         self.Contrasena.setTextFormat(QtCore.Qt.PlainText)
         self.Contrasena.setObjectName("Contrasena")
+
         self.MensajeEmergente = QtWidgets.QLabel(self.widget)
         self.MensajeEmergente.setGeometry(QtCore.QRect(50, 165, 251, 21))
         self.MensajeEmergente.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";\n"
 "color: rgb(255, 0, 4);")
         self.MensajeEmergente.setAlignment(QtCore.Qt.AlignCenter)
         self.MensajeEmergente.setObjectName("MensajeEmergente")
+
         self.Titulo = QtWidgets.QLabel(self.centralwidget)
         self.Titulo.setEnabled(True)
         self.Titulo.setGeometry(QtCore.QRect(380, 190, 371, 68))
@@ -149,14 +153,21 @@ class Ui_MainWindow(object):
         correo = self.INCorreo.toPlainText().strip()
         contrasena = self.INContrasena.text()
         usuario = Usuarios()
-        exito,mensaje = usuario.login(correo, contrasena)
+        exito,mensaje, nombre = usuario.login(correo, contrasena)
 
         if exito:
+            id_usuario = mensaje
             QtWidgets.QApplication.instance().activeWindow().close() ## cierra la ventana activa hasta el momento
-            self.AbrirRegistro()
+            self.AbrirPrincipal(id_usuario,nombre)
         else:
             self.MensajeEmergente.setText(mensaje)
 
+
+    def AbrirPrincipal(self,id_usuario, nombre):
+        self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
+        self.ui = UiPrincipalWindow()  # Usar la clase del formulario "Untitled"
+        self.ui.setupUi(self.window, id_usuario, nombre)  # Inicializar la ventana de "Untitled"
+        self.window.show()  # Mostrar la ventana
 
 
     def AbrirRegistro(self):

@@ -34,7 +34,7 @@ def iniciar_sesion():
     correo = input("Digite su Correo: ")
     contrasena = input("Digite su contraseña: ")
     usuario = Usuarios()
-    exito,Id_usuario = usuario.login(correo, contrasena)
+    exito,Id_usuario,nombre = usuario.login(correo, contrasena)
     if exito:
         menu_tareas(Id_usuario)
     else:

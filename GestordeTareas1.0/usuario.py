@@ -22,7 +22,7 @@ class Usuarios:
             print("Correo no válido")
             return False, "Correo no válido"
 
-        # Validar nombre de usuario (3 a 30 caracteres y solo letras, números y guiones bajos)
+
         # Validar nombre de usuario (3 a 30 caracteres y solo letras, números, guiones bajos y espacios)
         if not (3 <= len(self.nombre) <= 30 and re.match(r'^[a-zA-Z0-9_ ]+$', self.nombre)):
             print("Nombre de usuario no válido. Debe tener entre 3 y 30 caracteres y solo contener letras, números, guiones bajos y espacios.")
@@ -94,25 +94,25 @@ class Usuarios:
             # Crear un cursor para ejecutar comandos SQL
             with conn.cursor() as cursor:
                 # Consulta SQL para obtener el usuario por correo
-                sql = "SELECT id_usuario, contraseña FROM usuarios WHERE correo = %s;"
+                sql = "SELECT id_usuario, nombre_completo, contraseña FROM usuarios WHERE correo = %s;"
                 cursor.execute(sql, (correo,))
 
                 # Obtener el resultado de la consulta
                 resultado = cursor.fetchone()
 
                 if resultado:
-                    id_usuario,stored_password = resultado
+                    id_usuario, nombre, stored_password = resultado
 
                     # Comparar la contraseña ingresada con la almacenada en la base de datos
                     if contrasena == stored_password:
                         print("Inicio de sesión exitoso.")
-                        return True, id_usuario
+                        return True, id_usuario,nombre
                     else:
                         print("Usuario o contraseña incorrecta .")
-                        return None, "Usuario o contraseña incorrecta ."
+                        return None, "Usuario o contraseña incorrecta .", False
                 else:
                     print("Usuario o contraseña incorrecta .")
-                    return None,"Usuario o contraseña incorrecta."
+                    return None,"Usuario o contraseña incorrecta.", False
 
         except Exception as e:
             # Imprimir el error en caso de que algo salga mal
