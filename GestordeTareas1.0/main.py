@@ -180,21 +180,43 @@ def editar_tarea(Id_usuario):
 
 def agregar_recordatorio(Id_usuario):
     print("Agregando recordatorio a tarea...")
-    numero_tarea = input("Ingrese el número de la tarea a la que desea agregar el recordatorio (o escriba 'Mostrar' para ver las tareas): ")
+    tarea = Tarea()
 
-    if numero_tarea.lower() == 'mostrar':
+    # Mostrar las tareas disponibles si el usuario lo solicita
+    opcion = input("Ingrese el número de la tarea a la que desea agregar el recordatorio (o escriba 'Mostrar' para ver las tareas): ")
+    if opcion.lower() == 'mostrar':
         mostrar_tareas(Id_usuario)
-        numero_tarea = input("Ingrese el número de la tarea a la que desea agregar el recordatorio: ")
+        opcion = input("Ingrese el número de la tarea a la que desea agregar el recordatorio: ")
+
+    numero_tarea = opcion
+
+    # Obtener la fecha de vencimiento de la tarea seleccionada
+    conn = tarea.conexion.ConexionBaseDeDatos()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT fecha_vencimiento FROM Tarea WHERE id_tarea = %s AND id_usuario = %s;", (numero_tarea, Id_usuario))
+            resultado = cursor.fetchone()
+            if not resultado:
+                print("No se encontró la tarea especificada.")
+                return
+            fecha_vencimiento = resultado[0]
+    except Exception as e:
+        print(f"Error al obtener la fecha de vencimiento: {e}")
+        return
+    finally:
+        conn.close()
 
     try:
+        # Pedir la fecha de recordatorio
         fecha_recordatorio = pedir_fecha_recordatorio()
     except ValueError:
         print("Formato de fecha y hora del recordatorio no válido. Se omitirá el recordatorio.")
         fecha_recordatorio = None
 
-    recordatorio = Recordatorio()
-    recordatorio.agregar_recordatorio(numero_tarea, fecha_recordatorio)
-    print("Recordatorio agregado con éxito.")
+    if fecha_recordatorio:
+        recordatorio = Recordatorio()
+        recordatorio.agregar_recordatorio(numero_tarea, fecha_recordatorio, fecha_vencimiento)
+        recordatorio.iniciar_verificacion_automatica()
 
 
 def eliminar_tarea(Id_usuario):

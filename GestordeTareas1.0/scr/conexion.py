@@ -6,7 +6,7 @@ class CConexion:
             connection = psycopg2.connect(
                 host='localhost',
                 user='postgres',
-                password='Je1040871424',
+                password='andrea915',
                 database='GestorTareas'
             )
             print("Conexion exitosa")
