@@ -58,7 +58,7 @@ class Escritorio(Recordatorio):
                 for id_recordatorio, fecha_recordatorio, titulo in recordatorios:
                     if id_recordatorio not in self.recordatorios_notificados:
                         self.enviar_notificacion(
-                            titulo=f"🔔 Recordatorio: {titulo}",
+                            titulo=f"🔔 RECORDATORIO GESTOR DE TAREAS PERSONALIZADO",
                             mensaje=f"La tarea '{titulo}' está programada para ahora."
                         )
                         # Marcar el recordatorio como ya notificado
