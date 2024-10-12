@@ -6,10 +6,10 @@ class CConexion:
             connection = psycopg2.connect(
                 host='localhost',
                 user='postgres',
-                password='andrea915',
+                password='admin',
                 database='GestorTareas'
             )
-            print("Conexion exitosa")
+
             return connection
 
         except Exception as ex:

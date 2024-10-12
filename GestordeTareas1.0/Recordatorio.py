@@ -58,7 +58,6 @@ class Recordatorio:
                             titulo="🔔 RECORDATORIO GESTOR DE TAREAS",
                             mensaje=f"Tarea '{titulo}' está programada para recordarse ahora."
                         )
-                        print(f"¡Notificación enviada para la tarea '{titulo}', programada para {fecha_recordatorio}!")
                         # Marcar el recordatorio como ya notificado
                         self.recordatorios_notificados.add(id_recordatorio)
 

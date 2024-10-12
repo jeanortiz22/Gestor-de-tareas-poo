@@ -1,4 +1,5 @@
 from scr.conexion import CConexion
+from Busqueda import  Busqueda
 from Tarea import Tarea
 from usuario import Usuarios
 from Recordatorio import Recordatorio
@@ -37,8 +38,7 @@ def iniciar_sesion():
     exito,Id_usuario,nombre = usuario.login(correo, contrasena)
     if exito:
         menu_tareas(Id_usuario)
-    else:
-        print("Error de autenticación. Por favor, verifique sus credenciales.")
+
 
 
 def registrar_usuario():
@@ -50,9 +50,7 @@ def registrar_usuario():
     if contrasena == confirmar_contrasena:
         usuario = Usuarios(nombre, correo, contrasena, confirmar_contrasena)
         usuario.registrarusuarios()
-        print("Usuario registrado con éxito.")
-    else:
-        print("Las contraseñas no coinciden. Intente nuevamente.")
+
 
 
 def menu_tareas(Id_usuario):
@@ -144,7 +142,7 @@ def buscar_tarea(Id_usuario):
         print("Fecha de vencimiento no válida.")
         fecha_vencimiento = None
 
-    tarea = Tarea()
+    tarea = Busqueda()
     tarea.buscar_tarea(titulo=titulo, descripcion=descripcion, estado=estado, prioridad=prioridad, fecha_vencimiento=fecha_vencimiento)
 
 def agregar_tarea(Id_usuario):
@@ -164,18 +162,24 @@ def agregar_tarea(Id_usuario):
 
 def editar_tarea(Id_usuario):
     print("Editando tarea...")
-    numero_tarea = input("Ingrese el número de la tarea: ")
-    titulo_nuevo = input("Ingrese el nuevo título de la tarea: ")
-    descripcion_nueva = input("Ingrese la nueva descripción de la tarea: ")
+    numero_tarea = input("Ingrese el número de la tarea(o escriba Mostrar): ")
 
-    try:
-        fecha_vencimiento_nueva = pedir_fecha_vencimiento()
-    except ValueError:
-        print("Formato de fecha y hora no válido. Intente nuevamente.")
-        return
+    if numero_tarea.lower() =="mostrar":
+        mostrar_tareas(Id_usuario)
+        numero_tarea = input("Ingrese el número de la tarea que desea editar: ")
 
-    tarea = Tarea()
-    tarea.editar_tarea(numero_tarea, Id_usuario, titulo_nuevo, descripcion_nueva, fecha_vencimiento_nueva)
+    if numero_tarea:
+        titulo_nuevo = input("Ingrese el nuevo título de la tarea: ")
+        descripcion_nueva = input("Ingrese la nueva descripción de la tarea: ")
+
+        try:
+            fecha_vencimiento_nueva = pedir_fecha_vencimiento()
+        except ValueError:
+            print("Formato de fecha y hora no válido. Intente nuevamente.")
+            return
+
+        tarea = Tarea()
+        tarea.editar_tarea(numero_tarea, Id_usuario, titulo_nuevo, descripcion_nueva, fecha_vencimiento_nueva)
 
 
 def agregar_recordatorio(Id_usuario):
