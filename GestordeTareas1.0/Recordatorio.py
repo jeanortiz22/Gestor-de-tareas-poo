@@ -34,8 +34,11 @@ class Recordatorio:
             if conn:
                 conn.close()
 
-    def verificar_recordatorios(self):
+class Escritorio(Recordatorio):
+    def __init__(self):
+        super().__init__()  # Llamamos al constructor de la clase padre (Recordatorio)
 
+    def verificar_recordatorios(self):
         conn = None
         try:
             conn = self.conexion.ConexionBaseDeDatos()
@@ -55,8 +58,8 @@ class Recordatorio:
                 for id_recordatorio, fecha_recordatorio, titulo in recordatorios:
                     if id_recordatorio not in self.recordatorios_notificados:
                         self.enviar_notificacion(
-                            titulo="🔔 RECORDATORIO GESTOR DE TAREAS",
-                            mensaje=f"Tarea '{titulo}' está programada para recordarse ahora."
+                            titulo=f"🔔 Recordatorio: {titulo}",
+                            mensaje=f"La tarea '{titulo}' está programada para ahora."
                         )
                         # Marcar el recordatorio como ya notificado
                         self.recordatorios_notificados.add(id_recordatorio)

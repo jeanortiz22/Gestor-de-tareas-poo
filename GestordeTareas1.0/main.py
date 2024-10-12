@@ -1,9 +1,10 @@
 from scr.conexion import CConexion
 from Busqueda import  Busqueda
 from Etiqueta import  Etiqueta
+from Categoria import  Categoria
+from Recordatorio import Escritorio
 from Tarea import Tarea
 from usuario import Usuarios
-from Recordatorio import Recordatorio
 from datetime import datetime
 
 
@@ -108,7 +109,7 @@ def asignar_etiqueta(Id_usuario):
 
 
 def asignar_categoria(Id_usuario):
-    tarea = Tarea()
+    tarea = Categoria()
     if not tarea.hay_tareas(Id_usuario):
         print("No hay tareas disponibles para asignar una categoría.")
         return
@@ -219,9 +220,9 @@ def agregar_recordatorio(Id_usuario):
         fecha_recordatorio = None
 
     if fecha_recordatorio:
-        recordatorio = Recordatorio()
-        recordatorio.agregar_recordatorio(numero_tarea, fecha_recordatorio, fecha_vencimiento)
-        recordatorio.iniciar_verificacion_automatica()
+        escritorio = Escritorio()
+        escritorio.agregar_recordatorio(numero_tarea, fecha_recordatorio, fecha_vencimiento)
+        escritorio.iniciar_verificacion_automatica()
 
 
 def eliminar_tarea(Id_usuario):
