@@ -1,5 +1,6 @@
 from scr.conexion import CConexion
 from Busqueda import  Busqueda
+from Etiqueta import  Etiqueta
 from Tarea import Tarea
 from usuario import Usuarios
 from Recordatorio import Recordatorio
@@ -92,7 +93,7 @@ def menu_tareas(Id_usuario):
 
 
 def asignar_etiqueta(Id_usuario):
-    tarea = Tarea()
+    tarea = Etiqueta()
     if not tarea.hay_tareas(Id_usuario):
         print("No hay tareas disponibles para asignar una etiqueta.")
         return

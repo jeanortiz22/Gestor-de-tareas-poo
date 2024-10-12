@@ -54,40 +54,7 @@ class Tarea:
             if conn:
                 conn.close()
 
-    def asignar_etiqueta(self, id_tarea, id_usuario, etiqueta):
-        conn = None
-        try:
-            conn = self.conexion.ConexionBaseDeDatos()
-            with conn.cursor() as cursor:
-                verificar_sql = """
-                SELECT 1 FROM Tarea WHERE id_tarea = %s AND id_usuario = %s;
-                """
-                cursor.execute(verificar_sql, (id_tarea, id_usuario))
-                if cursor.fetchone() is None:
-                    print("No se encontró una tarea con ese ID para el usuario especificado.")
-                    return
 
-                actualizar_sql = """
-                UPDATE Tarea
-                SET prioridad = %s  -- Usamos el campo 'prioridad' como 'etiqueta'
-                WHERE id_tarea = %s AND id_usuario = %s;
-                """
-                cursor.execute(actualizar_sql, (etiqueta, id_tarea, id_usuario))
-                conn.commit()
-
-                if cursor.rowcount > 0:
-                    print("Etiqueta (prioridad) asignada exitosamente.")
-                else:
-                    print("No se pudo asignar la etiqueta.")
-
-        except Exception as e:
-            print(f"Error al asignar la etiqueta: {e}")
-            if conn:
-                conn.rollback()
-
-        finally:
-            if conn:
-                conn.close()
 
     def asignar_categoria(self, id_tarea, id_usuario, categoria):
         conn = None
