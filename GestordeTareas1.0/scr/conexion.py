@@ -6,7 +6,7 @@ class CConexion:
             connection = psycopg2.connect(
                 host='localhost',
                 user='postgres',
-                password='andrea915',
+                password='Je1040871424',
                 database='GestorTareas'
             )
 

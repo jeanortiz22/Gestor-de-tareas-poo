@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.BuscarTarea = QtWidgets.QLineEdit(self.centralwidget)
+        self.BuscarTarea = QtWidgets.QPushButton(self.centralwidget)
         self.BuscarTarea.setGeometry(QtCore.QRect(390, 150, 341, 41))
         self.BuscarTarea.setStyleSheet("background-color: rgb(255, 255, 255); font: 15pt 'MS Shell Dlg 2';")
         self.BuscarTarea.setObjectName("BuscarTarea")
