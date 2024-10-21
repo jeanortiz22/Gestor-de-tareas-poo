@@ -9,6 +9,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Tarea import Tarea
+from Categoria import Categoria
+from Etiqueta import Etiqueta
 
 
 
@@ -207,16 +209,26 @@ class Ui_MainWindow(object):
             fecha_vencimiento.setWordWrap(True)
             fecha_vencimiento.setText(f"Vencimiento: {tarea[3]}")  # Usar la fecha de vencimiento
 
-            comboBox_prioridad = QtWidgets.QComboBox(nueva_tarea)
-            comboBox_prioridad.setGeometry(QtCore.QRect(430, 0, 151, 41))
-            comboBox_prioridad.setStyleSheet("background-color: rgb(255, 255, 255);")
-            comboBox_prioridad.addItem(tarea[5])
-            comboBox_prioridad.addItem("nuevo")# Usar la prioridad de la tarea
+            comboBox_categoria = QtWidgets.QComboBox(nueva_tarea)
+            comboBox_categoria.setGeometry(QtCore.QRect(430, 0, 151, 41))
+            comboBox_categoria.setStyleSheet("background-color: rgb(255, 255, 255);")
+            comboBox_categoria.addItem(tarea[4])
+            comboBox_categoria.addItems(['Completa','Incompleta','Pendiente'])  # Agrega tus categorías
 
-            comboBox_estado = QtWidgets.QComboBox(nueva_tarea)
-            comboBox_estado.setGeometry(QtCore.QRect(290, 0, 141, 41))
-            comboBox_estado.setStyleSheet("background-color: rgb(255, 255, 255);")
-            comboBox_estado.addItem(tarea[4])  # Usar el estado de la tarea
+            # Conectar el evento de cambio del ComboBox a la función de actualización de categoría
+            comboBox_categoria.currentIndexChanged.connect(
+                lambda index, id_tarea=tarea[0]: self.actualizar_categoria(id_tarea, comboBox_categoria.itemText(index),
+                                                                           id_usuario)
+            )
+            comboBox_etiqueta = QtWidgets.QComboBox(nueva_tarea)
+            comboBox_etiqueta.setGeometry(QtCore.QRect(290, 0, 141, 41))
+            comboBox_etiqueta.setStyleSheet("background-color: rgb(255, 255, 255);")
+            comboBox_etiqueta.addItem(tarea[5])# Usar el estado de la tarea
+            comboBox_etiqueta.addItems(['Alta','Media','Baja'])
+
+            comboBox_etiqueta.currentIndexChanged.connect(
+                lambda index,id_tarea=tarea[0]: self.actualizar_etiqueta(id_tarea,id_usuario,comboBox_etiqueta.itemText(index))
+            )
 
             recordatorio = QtWidgets.QLabel(nueva_tarea)
             recordatorio.setGeometry(QtCore.QRect(730, 0, 151, 171))
@@ -237,10 +249,27 @@ class Ui_MainWindow(object):
             boton_recordatorio.setGeometry(QtCore.QRect(750, 10, 100, 25))  # Ancho, Altura
             boton_recordatorio.setText("Recordatorio")
 
+
+
             self.verticalLayout.addWidget(nueva_tarea)
         else:
             no_tareas_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
             self.verticalLayout.addWidget(no_tareas_label)
+
+    def actualizar_categoria(self, id_tarea, categoria_seleccionada, id_usuario):
+        print(f"Intentando actualizar la categoría de la tarea ID: {id_tarea} a '{categoria_seleccionada}'.")
+        if categoria_seleccionada != "Selecciona Categoría":
+            categoria_obj = Categoria()  # Crear una instancia de Categoria
+            categoria_obj.asignar_categoria(id_tarea, id_usuario, categoria_seleccionada)  # Asignar la categoría
+            print(f"Categoría '{categoria_seleccionada}' asignada a la tarea ID: {id_tarea}.")
+        else:
+            print("Por favor, selecciona una categoría válida.")
+
+
+    def actualizar_etiqueta(self,id_tarea,id_usuario,etiqueta_seleccionada):
+        nueva_etiqueta=Etiqueta()
+        nueva_etiqueta.asignar_etiqueta(id_tarea,id_usuario,etiqueta_seleccionada)
+        print(f"etiqueta '{etiqueta_seleccionada}' asignada a la tarea ID: {id_tarea}.")
 
 
 if __name__ == "__main__":

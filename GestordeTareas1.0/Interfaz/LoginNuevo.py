@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from RegistroNuevo import Ui_MainWindow as UiRegistroWindow
-from Interfaz.untitled import Ui_MainWindow as UiPrincipalWindow
+from Interfaz.Paginaprincipal import Ui_MainWindow as UiPrincipalWindow
 
 from usuario import Usuarios
 
