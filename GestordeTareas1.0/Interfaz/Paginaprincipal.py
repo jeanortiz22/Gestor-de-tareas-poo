@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Tarea import Tarea
 from Categoria import Categoria
 from Etiqueta import Etiqueta
+from Interfaz.AgregarTarea import Ui_Agregar_MainWindow as Uiagregar
 
 
 
@@ -65,7 +66,7 @@ class Ui_MainWindow(object):
         self.BotonAgregarTarea = QtWidgets.QPushButton(self.centralwidget)
         self.BotonAgregarTarea.setGeometry(QtCore.QRect(1150, 160, 121, 41))
         self.BotonAgregarTarea.setObjectName("BotonAgregarTarea")
-        self.BotonAgregarTarea.clicked.connect(self.agregarTarea)  # Conectar al metodo
+        self.BotonAgregarTarea.clicked.connect(self.AbrirAgregarTarea)  # Conectar al metodo
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -272,6 +273,12 @@ class Ui_MainWindow(object):
         print(f"etiqueta '{etiqueta_seleccionada}' asignada a la tarea ID: {id_tarea}.")
 
 
+
+    def AbrirAgregarTarea(self):
+        self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
+        self.ui = Uiagregar()  # Usar la clase de la segunda ventana
+        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.window.show()  # Mostrar la
 if __name__ == "__main__":
     import sys
 

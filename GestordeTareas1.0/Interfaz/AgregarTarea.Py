@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from Tarea import Tarea
 
 
 class Ui_Agregar_MainWindow(object):
@@ -86,6 +87,11 @@ class Ui_Agregar_MainWindow(object):
         self.Texto_Fecha.setText(_translate("Agregar_MainWindow", "Fecha limite"))
         self.Seleccionar_Fecha.setWhatsThis(_translate("Agregar_MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">chaooo</span></p><p><br/></p></body></html>"))
 
+
+
+
+    def subirTarea(self):
+        pass
 
 if __name__ == "__main__":
     import sys
