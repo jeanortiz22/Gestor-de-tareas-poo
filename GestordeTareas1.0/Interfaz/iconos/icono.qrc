@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="icono">
+    <file>libro-abierto.png</file>
+    <file>calendario.png</file>
+    <file>campana.png</file>
+  </qresource>
+</RCC>
