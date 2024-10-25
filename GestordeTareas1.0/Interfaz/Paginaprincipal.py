@@ -12,6 +12,7 @@ from Tarea import Tarea
 from Categoria import Categoria
 from Etiqueta import Etiqueta
 from Interfaz.AgregarTarea import Ui_Agregar_MainWindow as Uiagregar
+from BuscarTarea import Ui_BuscarTareaMainWindow as UiBuscar
 
 
 
@@ -62,6 +63,7 @@ class Ui_MainWindow(object):
         self.BuscarTarea.setGeometry(QtCore.QRect(390, 150, 341, 41))
         self.BuscarTarea.setStyleSheet("background-color: rgb(255, 255, 255); font: 15pt 'MS Shell Dlg 2';")
         self.BuscarTarea.setObjectName("BuscarTarea")
+        self.BotonBuscarTarea.clicked.connect(self.AbrirBuscarTarea())  # Conectar al metodo
 
         self.BotonAgregarTarea = QtWidgets.QPushButton(self.centralwidget)
         self.BotonAgregarTarea.setGeometry(QtCore.QRect(1150, 160, 121, 41))
@@ -279,6 +281,13 @@ class Ui_MainWindow(object):
         self.ui = Uiagregar()  # Usar la clase de la segunda ventana
         self.ui.setupUi(self.window)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
+
+    def AbrirBuscarTarea(self):
+        self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
+        self.ui = UiBuscar()  # Usar la clase de la segunda ventana
+        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.window.show()  # Mostrar la
+
 if __name__ == "__main__":
     import sys
 
