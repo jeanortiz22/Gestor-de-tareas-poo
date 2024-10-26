@@ -36,3 +36,12 @@ class Ui_CalendarioDialog(object):
     def retranslateUi(self, CalendarioDialog):
         _translate = QtCore.QCoreApplication.translate
         CalendarioDialog.setWindowTitle(_translate("CalendarioDialog", "Calendario"))
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Calendario1_MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_CalendarioDialog()
+    ui.setupUi(Calendario1_MainWindow)
+    Calendario1_MainWindow.show()
+    sys.exit(app.exec_())
