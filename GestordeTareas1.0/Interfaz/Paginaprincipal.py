@@ -13,6 +13,14 @@ from Categoria import Categoria
 from Etiqueta import Etiqueta
 from Interfaz.AgregarTarea import Ui_Agregar_MainWindow as Uiagregar
 from BuscarTarea import Ui_BuscarTareaMainWindow as UiBuscar
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import (QCoreApplication, QMetaObject, QRect, QSize)
+from PyQt5.QtGui import ( QFont, QPixmap)
+from PyQt5.QtWidgets import *
+import icono_rc
+from PyQt5.QtGui import QIcon
+from Interfaz.AgregarRecordatorio import Ui_MainWindow as UiRecordatorio
+
 
 
 
@@ -63,12 +71,29 @@ class Ui_MainWindow(object):
         self.BuscarTarea.setGeometry(QtCore.QRect(390, 150, 341, 41))
         self.BuscarTarea.setStyleSheet("background-color: rgb(255, 255, 255); font: 15pt 'MS Shell Dlg 2';")
         self.BuscarTarea.setObjectName("BuscarTarea")
-        self.BotonBuscarTarea.clicked.connect(self.AbrirBuscarTarea())  # Conectar al metodo
+        self.BuscarTarea.clicked.connect(self.AbrirBuscarTarea)  # Conectar al metodo
 
         self.BotonAgregarTarea = QtWidgets.QPushButton(self.centralwidget)
         self.BotonAgregarTarea.setGeometry(QtCore.QRect(1150, 160, 121, 41))
         self.BotonAgregarTarea.setObjectName("BotonAgregarTarea")
-        self.BotonAgregarTarea.clicked.connect(self.AbrirAgregarTarea)  # Conectar al metodo
+        self.BotonAgregarTarea.setStyleSheet(u"QPushButton {\n"
+                                        "	color: rgb(255, 255, 255);\n"
+                                        "	border-radius:15px;\n"
+                                        "	background-color: rgb(30, 30, 30);\n"
+                                        "   font-size: 16px;\n            " 
+                                        "}\n"
+                                        "QPushButton:Hover {\n"
+                                        "	border-bottom: 2px solid blue;\n"
+                                        "	background-color: rgb(30, 30, 30);\n"
+                                        "\n"
+                                        "}")
+        self.BotonAgregarTarea.clicked.connect(self.AbrirAgregarTarea) # Conectar al metodo
+
+        self.iconolibro = QLabel(self.centralwidget)
+        self.iconolibro.setObjectName(u"iconolibro")
+        self.iconolibro.setGeometry(QRect(280, 20, 81, 71))
+        self.iconolibro.setPixmap(QPixmap(u":/icono/libro-abierto.png"))
+        self.iconolibro.setScaledContents(True)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -91,6 +116,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_3.setText(_translate("MainWindow", "Bienvenido a tu gestor de tareas"))
         self.BotonAgregarTarea.setText(_translate("MainWindow", "Agregar Tarea"))
+        self.iconolibro.setText("")
 
     def agregarTarea(self):
         # Crear un nuevo frame con la estructura original de la tarea
@@ -207,7 +233,7 @@ class Ui_MainWindow(object):
             descripcion.setStyleSheet("border: none; background: transparent;")
 
             fecha_vencimiento = QtWidgets.QLabel(nueva_tarea)
-            fecha_vencimiento.setGeometry(QtCore.QRect(550, 40, 181, 131))
+            fecha_vencimiento.setGeometry(QtCore.QRect(550,0, 251, 220))
             fecha_vencimiento.setStyleSheet("background-color: rgb(154, 154, 154);")
             fecha_vencimiento.setWordWrap(True)
             fecha_vencimiento.setText(f"Vencimiento: {tarea[3]}")  # Usar la fecha de vencimiento
@@ -223,37 +249,89 @@ class Ui_MainWindow(object):
                 lambda index, id_tarea=tarea[0]: self.actualizar_categoria(id_tarea, comboBox_categoria.itemText(index),
                                                                            id_usuario)
             )
+            comboBox_categoria.setStyleSheet("""
+                QComboBox {
+                    background-color: rgb(255, 255, 255);
+                    color: rgb(0, 0, 0);
+                    border-radius: 10px;  /* Borde redondeado */
+                    padding: 5px;
+                    border: 1px solid rgb(100, 100, 100);
+                }
+
+                QComboBox:hover {
+                    border: 1px solid rgb(0, 122, 204);  /* Borde azul al pasar el mouse */
+                }
+
+                QComboBox QAbstractItemView {
+                    background-color: rgb(255, 255, 255);  /* Fondo del menú desplegable */
+                    selection-background-color: rgb(0, 122, 204);  /* Color de selección */
+                    selection-color: rgb(255, 255, 255);  /* Texto blanco al seleccionar */
+                }
+            """)
+
             comboBox_etiqueta = QtWidgets.QComboBox(nueva_tarea)
             comboBox_etiqueta.setGeometry(QtCore.QRect(290, 0, 141, 41))
             comboBox_etiqueta.setStyleSheet("background-color: rgb(255, 255, 255);")
             comboBox_etiqueta.addItem(tarea[5])# Usar el estado de la tarea
             comboBox_etiqueta.addItems(['Alta','Media','Baja'])
 
+
             comboBox_etiqueta.currentIndexChanged.connect(
                 lambda index,id_tarea=tarea[0]: self.actualizar_etiqueta(id_tarea,id_usuario,comboBox_etiqueta.itemText(index))
             )
+            comboBox_etiqueta.setStyleSheet("""
+                QComboBox {
+                    background-color: rgb(255, 255, 255);
+                    color: rgb(0, 0, 0);
+                    border-radius: 10px;  /* Borde redondeado */
+                    padding: 5px;
+                    border: 1px solid rgb(100, 100, 100);
+                }
+
+                QComboBox:hover {
+                    border: 1px solid rgb(0, 122, 204);  /* Borde azul al pasar el mouse */
+                }
+
+                QComboBox QAbstractItemView {
+                    background-color: rgb(255, 255, 255);  /* Fondo del menú desplegable */
+                    selection-background-color: rgb(0, 122, 204);  /* Color de selección */
+                    selection-color: rgb(255, 255, 255);  /* Texto blanco al seleccionar */
+                }
+            """)
 
             recordatorio = QtWidgets.QLabel(nueva_tarea)
-            recordatorio.setGeometry(QtCore.QRect(730, 0, 151, 171))
+            recordatorio.setGeometry(QtCore.QRect(730, 0, 300, 220))
             recordatorio.setStyleSheet("background-color: rgb(154, 154, 154);")
             recordatorio.setWordWrap(True)
             recordatorio.setText(f"Recordatorio")
 
-            # Botones Eliminar y Editar
+            # Crear el botón de eliminar
             boton_eliminar = QtWidgets.QPushButton(nueva_tarea)
             boton_eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
-            boton_eliminar.setText("Eliminar")
+            icono_eliminar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")  # Cambia el nombre del archivo a tu icono
+            boton_eliminar.setIcon(icono_eliminar)
+            boton_eliminar.setIconSize(QtCore.QSize(32, 32))  # Ajusta según el tamaño de tu icono
+
 
             boton_editar = QtWidgets.QPushButton(nueva_tarea)
             boton_editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
             boton_editar.setText("Editar")
 
             boton_recordatorio = QtWidgets.QPushButton(nueva_tarea)
-            boton_recordatorio.setGeometry(QtCore.QRect(750, 10, 100, 25))  # Ancho, Altura
-            boton_recordatorio.setText("Recordatorio")
+            boton_recordatorio.setGeometry(QtCore.QRect(748, 10, 150, 25))  # Ancho, Altura
+            boton_recordatorio.setText("Agregar Recordatorio")
+            boton_recordatorio.setStyleSheet(u"QPushButton {\n"
+                                            "	color: rgb(255, 255, 255);\n"
+                                            "	border-radius:15px;\n"
+                                            "	background-color: rgb(30, 30, 30);\n"
+                                            "}\n"
+                                            "QPushButton:Hover {\n"
+                                            "	border-bottom: 2px solid blue;\n"
+                                            "	background-color: rgb(30, 30, 30);\n"
+                                            "\n"
+                                            "}")
 
-
-
+            boton_recordatorio.clicked.connect(self.AbrirRecordatorio)
             self.verticalLayout.addWidget(nueva_tarea)
         else:
             no_tareas_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -276,9 +354,16 @@ class Ui_MainWindow(object):
 
 
 
-    def AbrirAgregarTarea(self):
+    def AbrirAgregarTarea(self,id_usuario):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = Uiagregar()  # Usar la clase de la segunda ventana
+        self.ui.setupUi(self.window,id_usuario)  # Inicializar la segunda ventana
+        self.window.show()
+
+
+    def AbrirRecordatorio(self):
+        self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
+        self.ui = UiRecordatorio()  # Usar la clase de la segunda ventana
         self.ui.setupUi(self.window)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
 
@@ -287,6 +372,8 @@ class Ui_MainWindow(object):
         self.ui = UiBuscar()  # Usar la clase de la segunda ventana
         self.ui.setupUi(self.window)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
+
+
 
 if __name__ == "__main__":
     import sys

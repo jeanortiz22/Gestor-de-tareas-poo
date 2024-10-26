@@ -1,10 +1,12 @@
+from datetime import datetime
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Tarea import Tarea
 from Calendario1 import Ui_CalendarioDialog
 
 
 class Ui_Agregar_MainWindow(object):
-    def setupUi(self, Agregar_MainWindow):
+    def setupUi(self, Agregar_MainWindow,id_usuario):
         Agregar_MainWindow.setObjectName("Agregar_MainWindow")
         Agregar_MainWindow.resize(1001, 625)
         Agregar_MainWindow.setMouseTracking(False)
@@ -134,6 +136,9 @@ class Ui_Agregar_MainWindow(object):
         fecha_hora = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
         self.Seleccionar_Fecha.setText(fecha_hora)  # Asignar la fecha y hora al QTextEdit
         self.calendario_dialog.accept()  # Cerrar el diálogo
+
+
+
 
 
 if __name__ == "__main__":
