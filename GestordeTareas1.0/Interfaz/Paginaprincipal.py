@@ -20,6 +20,8 @@ from PyQt5.QtWidgets import *
 import icono_rc
 from PyQt5.QtGui import QIcon
 from Interfaz.AgregarRecordatorio import Ui_MainWindow as UiRecordatorio
+from Interfaz.MensajeEliminar import Ui_Eliminar as UiEliminar
+from Interfaz.EditarTarea import Ui_Editar_MainWindow as UiEditar
 
 
 
@@ -310,12 +312,17 @@ class Ui_MainWindow(object):
             boton_eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
             icono_eliminar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")  # Cambia el nombre del archivo a tu icono
             boton_eliminar.setIcon(icono_eliminar)
-            boton_eliminar.setIconSize(QtCore.QSize(32, 32))  # Ajusta según el tamaño de tu icono
+            boton_eliminar.setIconSize(QtCore.QSize(32, 32))
+
+            boton_eliminar.clicked.connect(lambda _, id_tarea=tarea[0]: self.EliminarTarea(id_tarea, id_usuario))
+
 
 
             boton_editar = QtWidgets.QPushButton(nueva_tarea)
             boton_editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
             boton_editar.setText("Editar")
+            boton_editar.clicked.connect(lambda _, id_tarea=tarea[0]: self.EditarTarea(id_tarea, id_usuario))
+
 
             boton_recordatorio = QtWidgets.QPushButton(nueva_tarea)
             boton_recordatorio.setGeometry(QtCore.QRect(748, 10, 150, 25))  # Ancho, Altura
@@ -372,6 +379,20 @@ class Ui_MainWindow(object):
         self.ui = UiBuscar()  # Usar la clase de la segunda ventana
         self.ui.setupUi(self.window)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
+
+    def EliminarTarea(self,id_tarea,id_usuario):
+        self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
+        self.ui = UiEliminar()  # Usar la clase de la segunda ventana
+        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.window.show()
+
+    def EditarTarea(self,id_tarea, id_usuario):
+        self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
+        self.ui = UiEditar()  # Usar la clase de la segunda ventana
+        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.window.show()
+
+
 
 
 

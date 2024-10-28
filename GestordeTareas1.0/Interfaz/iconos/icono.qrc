@@ -4,4 +4,7 @@
     <file>calendario.png</file>
     <file>campana.png</file>
   </qresource>
+  <qresource prefix="Peligro">
+    <file>peligro.png</file>
+  </qresource>
 </RCC>
