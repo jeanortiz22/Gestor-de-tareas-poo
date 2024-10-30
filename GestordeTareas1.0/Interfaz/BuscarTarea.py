@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QIcon
 
 
 class Ui_BuscarTareaMainWindow(object):
@@ -67,12 +68,23 @@ class Ui_BuscarTareaMainWindow(object):
         self.AgregarRecordatorio = QtWidgets.QPushButton(self.frame)
         self.AgregarRecordatorio.setGeometry(QtCore.QRect(750, 10, 121, 23))
         self.AgregarRecordatorio.setObjectName("AgregarRecordatorio")
+
         self.Eliminar = QtWidgets.QPushButton(self.frame)
         self.Eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
-        self.Eliminar.setObjectName("Eliminar")
+        self.icono_eliminar=QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")
+        self.Eliminar.setIcon(self.icono_eliminar)
+        self.Eliminar.setIconSize(QtCore.QSize(32, 32))
+
+
+
         self.Editar = QtWidgets.QPushButton(self.frame)
         self.Editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
-        self.Editar.setObjectName("Editar")
+        self.icono_editar=QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\boton-editar.png")
+        self.Editar.setIcon(self.icono_editar)
+        self.Editar.setIconSize(QtCore.QSize(32,32))
+
+
+
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.Nombredepersona = QtWidgets.QLabel(self.centralwidget)
         self.Nombredepersona.setGeometry(QtCore.QRect(260, 120, 211, 41))
@@ -105,8 +117,7 @@ class Ui_BuscarTareaMainWindow(object):
         self.comboBox_2.setItemText(2, _translate("BuscarTareaMainWindow", "Pendiente"))
         self.recordatorio.setText(_translate("BuscarTareaMainWindow", "TextLabel"))
         self.AgregarRecordatorio.setText(_translate("BuscarTareaMainWindow", "Agregar recordatorio"))
-        self.Eliminar.setText(_translate("BuscarTareaMainWindow", "Eliminar"))
-        self.Editar.setText(_translate("BuscarTareaMainWindow", "Editar"))
+
         self.Nombredepersona.setText(_translate("BuscarTareaMainWindow", "TextLabel"))
 
 

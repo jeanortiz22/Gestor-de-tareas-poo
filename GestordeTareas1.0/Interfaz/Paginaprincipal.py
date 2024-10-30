@@ -225,7 +225,7 @@ class Ui_MainWindow(object):
 
             titulo = QtWidgets.QLabel(nueva_tarea)
             titulo.setGeometry(QtCore.QRect(10, 10, 281, 31))
-            titulo.setStyleSheet("font: 20pt 'MS Shell Dlg 2';")
+            titulo.setStyleSheet("font: 20pt 'MS Shell Dlg 2'; font-weight: bold;")
             titulo.setText(tarea[1])  # Usar el título de la tarea
 
             descripcion = QtWidgets.QTextEdit(nueva_tarea)
@@ -320,7 +320,9 @@ class Ui_MainWindow(object):
 
             boton_editar = QtWidgets.QPushButton(nueva_tarea)
             boton_editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
-            boton_editar.setText("Editar")
+            icono_editar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\boton-editar.png")
+            boton_editar.setIcon(icono_editar)
+            boton_editar.setIconSize(QtCore.QSize(32, 32))
             boton_editar.clicked.connect(lambda _, id_tarea=tarea[0]: self.EditarTarea(id_tarea, id_usuario))
 
 

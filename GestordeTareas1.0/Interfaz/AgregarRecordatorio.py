@@ -11,7 +11,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(1800, 880)
-        MainWindow.setMaximumSize(QSize(16777215, 16777215))
+        MainWindow.setMaximumSize(QSize(1800, 880))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.Bienvenido = QLabel(self.centralwidget)

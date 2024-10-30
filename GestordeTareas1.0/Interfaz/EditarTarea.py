@@ -10,6 +10,7 @@ class Ui_Editar_MainWindow(object):
         Agregar_MainWindow.setObjectName("Agregar_MainWindow")
         Agregar_MainWindow.resize(1001, 625)
         Agregar_MainWindow.setMouseTracking(False)
+        Agregar_MainWindow.setMaximumSize(QtCore.QSize(1001, 625))
         self.centralwidget = QtWidgets.QWidget(Agregar_MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.Texto_Agregar = QtWidgets.QLabel(self.centralwidget)

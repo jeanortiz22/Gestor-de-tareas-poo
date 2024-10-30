@@ -14,7 +14,7 @@ class Tarea:
         self.conexion = CConexion()
 
     def agregar_tarea(self):
-        if len(self.titulo) > 30:
+        if len(self.titulo) > 20:
             print("El titulo de la tarea no puede exceder los 30 caracteres")
             return
 
@@ -57,7 +57,7 @@ class Tarea:
     def editar_tarea(self, id_tarea, id_usuario, nuevo_titulo=None, nueva_descripcion=None,
                      nueva_fecha_vencimiento=None):
 
-        if len(nuevo_titulo) > 30:
+        if len(nuevo_titulo) > 20:
             print("El titulo de la tarea no puede exceder los 30 caracteres")
             return
 
