@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox
-from usuario import Usuarios
+from Backend.usuario import Usuarios
 
 
 class Ui_MainWindow(object):
@@ -174,12 +173,13 @@ class Ui_MainWindow(object):
     def registrarusuarios(self):
         nombre = self.INombre.toPlainText().strip()
         correo = self.INCorreo.toPlainText().strip()
+        correomini=correo.lower() #minimizar la letra del correo
         contrasena = self.INContrasena.toPlainText().strip()
         confirmar_contrasena = self.INcontrasena2.toPlainText().strip()
 
 
         # Crear instancia de Usuarios y asignar datos
-        usuario = Usuarios(nombre, correo, contrasena,confirmar_contrasena)
+        usuario = Usuarios(nombre, correomini, contrasena,confirmar_contrasena)
 
         # Registrar el usuario
         registro_exitoso,mensaje = usuario.registrarusuarios()

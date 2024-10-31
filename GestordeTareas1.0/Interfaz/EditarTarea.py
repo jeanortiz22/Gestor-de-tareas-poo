@@ -1,7 +1,4 @@
-from datetime import datetime
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Tarea import Tarea
 from Calendario1 import Ui_CalendarioDialog
 
 

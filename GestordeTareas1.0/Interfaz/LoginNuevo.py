@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from RegistroNuevo import Ui_MainWindow as UiRegistroWindow
 from Interfaz.Paginaprincipal import Ui_MainWindow as UiPrincipalWindow
 
-from usuario import Usuarios
+from Backend.usuario import Usuarios
 
 
 class Ui_MainWindow(object):
