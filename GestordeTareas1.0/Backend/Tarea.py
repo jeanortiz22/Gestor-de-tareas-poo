@@ -58,12 +58,12 @@ class Tarea:
                      nueva_fecha_vencimiento=None):
 
         if len(nuevo_titulo) > 20:
-            print("El titulo de la tarea no puede exceder los 30 caracteres")
-            return
+            print("El titulo de la tarea no puede exceder los 20 caracteres")
+            return None, "El titulo de la tarea no puede exceder los 20 caracteres"
 
         if len(nuevo_titulo) == 0:
             print("El titulo tiene que contener al menos 1 letra")
-            return
+            return None ,"El titulo tiene que contener al menos 1 letra"
 
         conn = None
         try:
@@ -105,6 +105,7 @@ class Tarea:
 
                 if cursor.rowcount > 0:
                     print("Tarea actualizada exitosamente.")
+                    return True,"Tarea actualizada exitosamente."
                 else:
                     print("No se pudo actualizar la tarea.")
 
@@ -139,6 +140,7 @@ class Tarea:
                 conn.commit()
                 if cursor.rowcount > 0:
                     print("Tarea eliminada exitosamente.")
+                    return True,"Tarea eliminada exitosamente."
                 else:
                     print("No se encontró una tarea con ese ID para el usuario especificado.")
 

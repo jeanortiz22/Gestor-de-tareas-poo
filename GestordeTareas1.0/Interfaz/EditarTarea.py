@@ -1,9 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from Backend.Tarea import Tarea
 from Calendario1 import Ui_CalendarioDialog
 
 
+
 class Ui_Editar_MainWindow(object):
-    def setupUi(self, Agregar_MainWindow):
+    def setupUi(self, Agregar_MainWindow,id_tarea,id_usuario):
         Agregar_MainWindow.setObjectName("Agregar_MainWindow")
         Agregar_MainWindow.resize(1001, 625)
         Agregar_MainWindow.setMouseTracking(False)
@@ -22,6 +24,7 @@ class Ui_Editar_MainWindow(object):
         self.Ingresar_Nombre_Tarea = QtWidgets.QTextEdit(self.centralwidget)
         self.Ingresar_Nombre_Tarea.setGeometry(QtCore.QRect(100, 150, 791, 51))
         self.Ingresar_Nombre_Tarea.setObjectName("Ingresar_Nombre_Tarea")
+
         self.Ingresar_Descripcion = QtWidgets.QTextEdit(self.centralwidget)
         self.Ingresar_Descripcion.setGeometry(QtCore.QRect(100, 260, 791, 101))
         self.Ingresar_Descripcion.setObjectName("Ingresar_Descripcion")
@@ -50,6 +53,8 @@ class Ui_Editar_MainWindow(object):
                                         "	background-color: rgb(30, 30, 30);\n"
                                         "\n"
                                         "}")
+        self.Guardar_Tarea.clicked.connect(lambda: self.EditarTarea(id_tarea, id_usuario,self.obtenerFechaHora()))
+
 
 
         self.Texto_Titulo = QtWidgets.QLabel(self.centralwidget)
@@ -85,6 +90,11 @@ class Ui_Editar_MainWindow(object):
         self.Seleccionar_Fecha.setStyleSheet(u"QLineEdit{\n"
                                     "	border-radius:15px;\n"
                                     "}")
+        self.Mensaje_Resultado = QtWidgets.QLabel(self.centralwidget)
+        self.Mensaje_Resultado.setGeometry(QtCore.QRect(100, 560, 791, 30))  # Ajusta la posición según sea necesario
+        self.Mensaje_Resultado.setFont(font)
+        self.Mensaje_Resultado.setObjectName("Mensaje_Resultado")
+        self.Mensaje_Resultado.setStyleSheet("color: red;")  # Puedes cambiar el color según prefieras
 
         Agregar_MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Agregar_MainWindow)
@@ -134,9 +144,28 @@ class Ui_Editar_MainWindow(object):
         fecha_hora = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
         self.Seleccionar_Fecha.setText(fecha_hora)  # Asignar la fecha y hora al QTextEdit
         self.calendario_dialog.accept()  # Cerrar el diálogo
+        print(fecha_hora)
+
+    def obtenerFechaHora(self):
+        # Esta función devolverá la fecha y hora seleccionadas desde el QTextEdit
+        return self.Seleccionar_Fecha.toPlainText().strip()
 
 
+    def EditarTarea(self,id_tarea,id_usuario,fecha_hora):
+        Ntitulo=self.Ingresar_Nombre_Tarea.toPlainText().strip()
+        Ndescripcion=self.Ingresar_Descripcion.toPlainText().strip()
+        EdiUsuario = Tarea()
+        print(fecha_hora)
+        if fecha_hora == "":
+            fecha_hora = None
+        exito,mensaje = EdiUsuario.editar_tarea(id_tarea,id_usuario,Ntitulo,Ndescripcion,fecha_hora)
 
+        if exito:
+            self.centralwidget.window().hide()
+
+
+        else:
+            self.Mensaje_Resultado.setText(mensaje)
 
 
 if __name__ == "__main__":

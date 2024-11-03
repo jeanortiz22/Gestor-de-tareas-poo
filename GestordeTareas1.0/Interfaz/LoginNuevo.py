@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from RegistroNuevo import Ui_MainWindow as UiRegistroWindow
+from Interfaz.RegistroNuevo import Ui_MainWindow as UiRegistroWindow
 from Interfaz.Paginaprincipal import Ui_MainWindow as UiPrincipalWindow
-
 from Backend.usuario import Usuarios
 
 
@@ -24,12 +23,14 @@ class Ui_MainWindow(object):
         self.INCorreo.setEnabled(True)
         self.INCorreo.setGeometry(QtCore.QRect(50, 40, 241, 41))
         self.INCorreo.setStyleSheet("background-color: rgb(221, 221, 221);\n"
-"font: 14pt \"MS Shell Dlg 2\";")
+"font: 14pt \"MS Shell Dlg 2\";\n"
+"border-radius:15px;")
         self.INCorreo.setObjectName("INCorreo")
         self.INContrasena = QtWidgets.QLineEdit(self.widget)
         self.INContrasena.setGeometry(QtCore.QRect(50, 120, 241, 41))
         self.INContrasena.setStyleSheet("background-color: rgb(221, 221, 221);\n"
-"font: 14pt \"MS Shell Dlg 2\";")
+"font: 14pt \"MS Shell Dlg 2\";\n"
+"border-radius:15px;")
         self.INContrasena.setEchoMode(QtWidgets.QLineEdit.Password)
         self.INContrasena.setObjectName("INContrasena")
 

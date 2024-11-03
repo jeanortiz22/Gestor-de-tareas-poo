@@ -10,13 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtGui
+from Backend.Tarea import Tarea
 
 
 
 
 
 class Ui_Eliminar(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow,id_tarea,id_usuario):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(406, 192)
         MainWindow.setMaximumSize(QtCore.QSize(406, 192))
@@ -49,11 +50,13 @@ class Ui_Eliminar(object):
         self.BotonCancelar.setGeometry(QtCore.QRect(200, 120, 91, 31))
         self.BotonCancelar.setStyleSheet("background-color: rgb(190, 190, 190);")
         self.BotonCancelar.setObjectName("BotonCancelar")
+        self.BotonCancelar.clicked.connect(lambda _ :self.Cancelar())
 
         self.BotonAceptar = QtWidgets.QPushButton(self.VentanaEliminar)
         self.BotonAceptar.setGeometry(QtCore.QRect(300, 120, 91, 31))
         self.BotonAceptar.setStyleSheet("background-color: rgb(255, 0, 4);")
         self.BotonAceptar.setObjectName("BotonAceptar")
+        self.BotonAceptar.clicked.connect(lambda _: self.EliminarTarea(id_tarea,id_usuario))
 
 
 
@@ -76,7 +79,16 @@ class Ui_Eliminar(object):
         self.Textoabajo.setText(_translate("MainWindow", "Si eliminas esta tarea, no podras recuperarla."))
         self.BotonCancelar.setText(_translate("MainWindow", "Cancelar"))
         self.BotonAceptar.setText(_translate("MainWindow", "Aceptar"))
-import icono_rc
+
+    def EliminarTarea(self,id_tarea,id_usuario):
+        Elitarea = Tarea()
+        exito,mesaje =Elitarea.eliminar_tarea(id_tarea,id_usuario)
+        if exito:
+            self.centralwidget.window().hide()
+    def Cancelar(self):
+        self.centralwidget.window().close()
+
+
 
 
 if __name__ == "__main__":

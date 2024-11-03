@@ -21,6 +21,7 @@ from PyQt5.QtGui import QIcon
 from Interfaz.AgregarRecordatorio import Ui_MainWindow as UiRecordatorio
 from Interfaz.MensajeEliminar import Ui_Eliminar as UiEliminar
 from Interfaz.EditarTarea import Ui_Editar_MainWindow as UiEditar
+from PyQt5.QtCore import QTimer
 
 
 
@@ -34,6 +35,8 @@ class Ui_MainWindow(object):
         MainWindow.resize(1920, 1080)
         MainWindow.setMaximumSize(QtCore.QSize(2000, 1920))
         MainWindow.setStyleSheet("background-color: rgb(219, 219, 219);")
+
+
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -89,6 +92,14 @@ class Ui_MainWindow(object):
                                         "\n"
                                         "}")
         self.BotonAgregarTarea.clicked.connect(self.AbrirAgregarTarea) # Conectar al metodo
+
+
+        #Recarga la pagina principal para que se actualicen si hay cambios
+        self.timer = QTimer()
+        self.timer.timeout.connect(lambda: self.mostrar_tareas(id_usuario))
+        self.timer.start(5000)  # 5000 ms = 5 segundos
+
+
 
         self.iconolibro = QLabel(self.centralwidget)
         self.iconolibro.setObjectName(u"iconolibro")
@@ -155,7 +166,7 @@ class Ui_MainWindow(object):
         recordatorio.setGeometry(QtCore.QRect(730, 0, 151, 171))
         recordatorio.setStyleSheet("background-color: rgb(154, 154, 154);")
         recordatorio.setWordWrap(True)
-        recordatorio.setText("Recordatorio")
+        recordatorio.setText("Recordatorio:")
 
         # Botones Eliminar y Editar
         boton_eliminar = QtWidgets.QPushButton(nuevaTarea)
@@ -297,7 +308,7 @@ class Ui_MainWindow(object):
             recordatorio.setGeometry(QtCore.QRect(730, 0, 300, 220))
             recordatorio.setStyleSheet("background-color: rgb(154, 154, 154);")
             recordatorio.setWordWrap(True)
-            recordatorio.setText(f"Recordatorio")
+            recordatorio.setText(f"Recordatorio: ")
 
             # Crear el botón de eliminar
             boton_eliminar = QtWidgets.QPushButton(nueva_tarea)
@@ -332,7 +343,7 @@ class Ui_MainWindow(object):
                                             "\n"
                                             "}")
 
-            boton_recordatorio.clicked.connect(self.AbrirRecordatorio)
+            boton_recordatorio.clicked.connect(lambda _,id_tarea = tarea[0]: self.AbrirRecordatorio())
             self.verticalLayout.addWidget(nueva_tarea)
         else:
             no_tareas_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -377,13 +388,13 @@ class Ui_MainWindow(object):
     def EliminarTarea(self,id_tarea,id_usuario):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiEliminar()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window,id_tarea,id_usuario)  # Inicializar la segunda ventana
         self.window.show()
 
     def EditarTarea(self,id_tarea, id_usuario):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiEditar()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window,id_tarea,id_usuario)  # Inicializar la segunda ventana
         self.window.show()
 
 
