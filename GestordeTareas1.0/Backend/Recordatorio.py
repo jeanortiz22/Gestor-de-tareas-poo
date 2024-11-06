@@ -90,3 +90,30 @@ class Escritorio(Recordatorio):
 
         hilo = threading.Thread(target=verificar_periodicamente, daemon=True)
         hilo.start()
+
+    def obtener_fecha_recordatorio_por_id_tarea(self, id_tarea):
+        conn = None
+        try:
+            conn = self.conexion.ConexionBaseDeDatos()
+            with conn.cursor() as cursor:
+                sql = """
+                SELECT R.fecha_recordatorio
+                FROM Recordatorio R
+                WHERE R.id_tarea = %s;
+                """
+                cursor.execute(sql, (id_tarea,))
+                recordatorio = cursor.fetchone()
+
+                if recordatorio:
+                    fecha_recordatorio = recordatorio[0]
+                    return fecha_recordatorio
+                else:
+                    print("No se encontró un recordatorio para el id_tarea especificado.")
+                    return None
+
+        except Exception as e:
+            print(f"Error al obtener la fecha del recordatorio: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()

@@ -84,7 +84,7 @@ class Ui_Eliminar(object):
         Elitarea = Tarea()
         exito,mesaje =Elitarea.eliminar_tarea(id_tarea,id_usuario)
         if exito:
-            self.centralwidget.window().hide()
+            self.centralwidget.window().close()
     def Cancelar(self):
         self.centralwidget.window().close()
 

@@ -22,6 +22,7 @@ from Interfaz.AgregarRecordatorio import Ui_MainWindow as UiRecordatorio
 from Interfaz.MensajeEliminar import Ui_Eliminar as UiEliminar
 from Interfaz.EditarTarea import Ui_Editar_MainWindow as UiEditar
 from PyQt5.QtCore import QTimer
+from Backend.Recordatorio import Escritorio
 
 
 
@@ -33,7 +34,7 @@ class Ui_MainWindow(object):
 
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1920, 1080)
-        MainWindow.setMaximumSize(QtCore.QSize(2000, 1920))
+        MainWindow.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)#Hace que la pagina se cuadre al tamano de la pantalla
         MainWindow.setStyleSheet("background-color: rgb(219, 219, 219);")
 
 
@@ -97,7 +98,7 @@ class Ui_MainWindow(object):
         #Recarga la pagina principal para que se actualicen si hay cambios
         self.timer = QTimer()
         self.timer.timeout.connect(lambda: self.mostrar_tareas(id_usuario))
-        self.timer.start(5000)  # 5000 ms = 5 segundos
+        self.timer.start(10000)  # 5000 ms = 5 segundos
 
 
 
@@ -123,69 +124,10 @@ class Ui_MainWindow(object):
         self.BotonAgregarTarea.setText(_translate("MainWindow", "Agregar Tarea"))
         self.iconolibro.setText("")
 
-    def agregarTarea(self):
-        # Crear un nuevo frame con la estructura original de la tarea
-        nuevaTarea = QtWidgets.QFrame(self.scrollAreaWidgetContents)
-        nuevaTarea.setMinimumSize(QtCore.QSize(0, 221))
-        nuevaTarea.setStyleSheet("background-color: rgb(221, 221, 221);")
-        nuevaTarea.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        nuevaTarea.setFrameShadow(QtWidgets.QFrame.Raised)
-
-        titulo = QtWidgets.QLabel(nuevaTarea)
-        titulo.setGeometry(QtCore.QRect(0, 0, 281, 31))
-        titulo.setMaximumSize(QtCore.QSize(1080, 1920))
-        titulo.setStyleSheet("font: 20pt 'MS Shell Dlg 2';")
-        titulo.setText("Nueva Tarea")
-
-        descripcion = QtWidgets.QLabel(nuevaTarea)
-        descripcion.setGeometry(QtCore.QRect(0, 40, 401, 131))
-        descripcion.setWordWrap(True)
-        descripcion.setText("Descripción de la nueva tarea")
-
-        fechavencimiento = QtWidgets.QLabel(nuevaTarea)
-        fechavencimiento.setGeometry(QtCore.QRect(550, 40, 181, 131))
-        fechavencimiento.setStyleSheet("background-color: rgb(154, 154, 154);")
-        fechavencimiento.setWordWrap(True)
-        fechavencimiento.setText("Fecha de vencimiento")
-
-        comboBox_prioridad = QtWidgets.QComboBox(nuevaTarea)
-        comboBox_prioridad.setGeometry(QtCore.QRect(430, 0, 151, 41))
-        comboBox_prioridad.setStyleSheet("background-color: rgb(255, 255, 255);")
-        comboBox_prioridad.addItem("Media")
-        comboBox_prioridad.addItem("Alta")
-        comboBox_prioridad.addItem("Baja")
-
-        comboBox_estado = QtWidgets.QComboBox(nuevaTarea)
-        comboBox_estado.setGeometry(QtCore.QRect(290, 0, 141, 41))
-        comboBox_estado.setStyleSheet("background-color: rgb(255, 255, 255);")
-        comboBox_estado.addItem("🟢Completa")
-        comboBox_estado.addItem("🔴Incompleta")
-        comboBox_estado.addItem("🟨Pendiente")
-
-        recordatorio = QtWidgets.QLabel(nuevaTarea)
-        recordatorio.setGeometry(QtCore.QRect(730, 0, 151, 171))
-        recordatorio.setStyleSheet("background-color: rgb(154, 154, 154);")
-        recordatorio.setWordWrap(True)
-        recordatorio.setText("Recordatorio:")
-
-        # Botones Eliminar y Editar
-        boton_eliminar = QtWidgets.QPushButton(nuevaTarea)
-        boton_eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
-        boton_eliminar.setText("Eliminar")
-
-        boton_editar = QtWidgets.QPushButton(nuevaTarea)
-        boton_editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
-        boton_editar.setText("Editar")
-
-        boton_recordatorio = QtWidgets.QPushButton(nuevaTarea)
-        boton_recordatorio.setGeometry(QtCore.QRect(750, 10, 100, 25))  # Ancho, Altura
-        boton_recordatorio.setText("Recordatorio")
-
-        # Agregar el nuevo frame al layout vertical
-        self.verticalLayout.addWidget(nuevaTarea)
-
     def mostrar_tareas(self,id_usuario):
         print("Llamando a obtener_tareas_usuario()...")
+        escritorio = Escritorio()
+
 
         tarea_obj = Tarea()
         tareas = tarea_obj.obtener_tareas_usuario(id_usuario)  # Cambia 30 por el ID de usuario correcto
@@ -225,6 +167,7 @@ class Ui_MainWindow(object):
             nueva_tarea.setObjectName("nueva_tarea")  # Asignar un nombre de objeto único
             nueva_tarea.setFrameShape(QtWidgets.QFrame.StyledPanel)
             nueva_tarea.setFrameShadow(QtWidgets.QFrame.Raised)
+
 
             titulo = QtWidgets.QLabel(nueva_tarea)
             titulo.setGeometry(QtCore.QRect(10, 10, 281, 31))
@@ -308,7 +251,9 @@ class Ui_MainWindow(object):
             recordatorio.setGeometry(QtCore.QRect(730, 0, 300, 220))
             recordatorio.setStyleSheet("background-color: rgb(154, 154, 154);")
             recordatorio.setWordWrap(True)
-            recordatorio.setText(f"Recordatorio: ")
+            fecha_recordatorio = escritorio.obtener_fecha_recordatorio_por_id_tarea(tarea[0])
+            recordatorio.setText(f"Recordatorio:{fecha_recordatorio}")
+
 
             # Crear el botón de eliminar
             boton_eliminar = QtWidgets.QPushButton(nueva_tarea)
