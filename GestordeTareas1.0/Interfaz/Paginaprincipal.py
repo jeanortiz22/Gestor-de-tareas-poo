@@ -95,12 +95,6 @@ class Ui_MainWindow(object):
         self.BotonAgregarTarea.clicked.connect(self.AbrirAgregarTarea) # Conectar al metodo
 
 
-        #Recarga la pagina principal para que se actualicen si hay cambios
-        self.timer = QTimer()
-        self.timer.timeout.connect(lambda: self.mostrar_tareas(id_usuario))
-        self.timer.start(10000)  # 5000 ms = 5 segundos
-
-
 
         self.iconolibro = QLabel(self.centralwidget)
         self.iconolibro.setObjectName(u"iconolibro")
@@ -339,7 +333,7 @@ class Ui_MainWindow(object):
     def EditarTarea(self,id_tarea, id_usuario):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiEditar()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window,id_tarea,id_usuario)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window,id_tarea,id_usuario,self.mostrar_tareas)  # Inicializar la segunda ventana
         self.window.show()
 
 

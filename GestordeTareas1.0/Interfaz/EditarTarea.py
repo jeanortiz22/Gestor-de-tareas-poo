@@ -5,7 +5,10 @@ from Calendario1 import Ui_CalendarioDialog
 
 
 class Ui_Editar_MainWindow(object):
-    def setupUi(self, Agregar_MainWindow,id_tarea,id_usuario):
+    def setupUi(self, Agregar_MainWindow,id_tarea,id_usuario,mostrar_tareas):
+
+        self.mostrar_tareas = mostrar_tareas
+
         Agregar_MainWindow.setObjectName("Agregar_MainWindow")
         Agregar_MainWindow.resize(1001, 625)
         Agregar_MainWindow.setMouseTracking(False)
@@ -161,6 +164,7 @@ class Ui_Editar_MainWindow(object):
         exito,mensaje = EdiUsuario.editar_tarea(id_tarea,id_usuario,Ntitulo,Ndescripcion,fecha_hora)
 
         if exito:
+            self.mostrar_tareas(id_usuario)
             self.centralwidget.window().hide()
 
 

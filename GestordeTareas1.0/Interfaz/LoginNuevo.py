@@ -130,7 +130,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.Ingresarboton.setText(_translate("MainWindow", "Ingresesar"))
+        self.Ingresarboton.setText(_translate("MainWindow", "Ingresar"))
         self.Registroboton.setText(_translate("MainWindow", "¿No estás registrado? Registrarse"))
         self.Email.setText(_translate("MainWindow", "Email"))
         self.Contrasena.setText(_translate("MainWindow", "Contrasena"))
@@ -166,8 +166,6 @@ class Ui_MainWindow(object):
         self.ui = UiRegistroWindow()  # Usar la clase de la segunda ventana
         self.ui.setupUi(self.window)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la ventana
-
-
 
 
 if __name__ == "__main__":
