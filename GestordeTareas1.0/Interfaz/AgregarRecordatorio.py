@@ -12,9 +12,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow, id_tarea, id_usuario, fecha_vencimiento1):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.setEnabled(True)
         MainWindow.resize(1001, 625)
-        MainWindow.setMaximumSize(QSize(16777215, 16777215))
+        MainWindow.setMouseTracking(False)
+        MainWindow.setMaximumSize(QSize(1001, 625))
         font = QFont()
         font.setPointSize(12)
         MainWindow.setFont(font)
