@@ -102,10 +102,10 @@ class Ui_MainWindow(object):
 
     # Metodo para asignar la fecha seleccionada al campo de texto
     def asignarFechaHora(self, calendario_ui):
-        fecha_hora = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
-        self.fecha.setText(fecha_hora)  # Asignar la fecha y hora al QTextEdit
+        fecha_hora2 = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
+        self.fecha.setText(fecha_hora2)  # Asignar la fecha y hora al QTextEdit
         self.calendario_dialog.accept()  # Cerrar el diálogo
-        print(fecha_hora)
+        print(fecha_hora2)
 
     def obtenerFechaHora(self):
         # Esta función devolverá la fecha y hora seleccionadas desde el QTextEdit
