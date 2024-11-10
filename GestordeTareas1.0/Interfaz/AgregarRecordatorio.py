@@ -3,39 +3,50 @@ from PyQt5.QtCore import (QCoreApplication, QMetaObject,QRect, QSize,QDateTime)
 from PyQt5.QtGui import ( QFont, QPixmap, QColor)
 from PyQt5.QtWidgets import *
 from Calendario1 import Ui_CalendarioDialog
+from Backend.Recordatorio import Recordatorio
+from Backend.Tarea import Tarea
 
 import icono_rc
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, id_tarea, id_usuario, fecha_vencimiento1):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setEnabled(True)
         MainWindow.resize(1001, 625)
         MainWindow.setMaximumSize(QSize(16777215, 16777215))
+        font = QFont()
+        font.setPointSize(12)
+        MainWindow.setFont(font)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.textoagregarrecordatorio = QLabel(self.centralwidget)
         self.textoagregarrecordatorio.setObjectName(u"textoagregarrecordatorio")
         self.textoagregarrecordatorio.setGeometry(QRect(160, 40, 10000, 80))
-        font = QFont()
-        font.setPointSize(20)
-        self.textoagregarrecordatorio.setFont(font)
+        font1 = QFont()
+        font1.setPointSize(20)
+        self.textoagregarrecordatorio.setFont(font1)
         self.texto_Recordatorio = QLabel(self.centralwidget)
         self.texto_Recordatorio.setObjectName(u"texto_Recordatorio")
         self.texto_Recordatorio.setGeometry(QRect(170, 180, 301, 71))
-        self.texto_Recordatorio.setFont(font)
-        self.fecha = QDateTimeEdit(self.centralwidget)
-        self.fecha.setObjectName("fecha")
-        self.fecha.setGeometry(QRect(110, 290, 791, 51))
-        self.fecha.setDisplayFormat("dd/MM/yyyy HH:mm")  # Formato de fecha y hora
-        font1 = QFont()
-        font1.setPointSize(16)
-        self.fecha.setFont(font1)
-        self.fecha.setStyleSheet("border-radius:15px;")
-
-        self.fecha.setDateTime(QDateTime.currentDateTime())  # Establecer la fecha y hora actuales como valor inicial
-        self.fecha.setButtonSymbols(QAbstractSpinBox.NoButtons) # Eliminar los botones de incremento y decremento
+        self.texto_Recordatorio.setFont(font1)
+        self.Botonguardar = QPushButton(self.centralwidget)
+        self.Botonguardar.setObjectName(u"Botonguardar")
+        self.Botonguardar.setGeometry(QRect(110, 420, 791, 61))
+        font2 = QFont()
+        font2.setPointSize(16)
+        self.Botonguardar.setFont(font2)
+        self.Botonguardar.setStyleSheet(u"QPushButton {\n"
+                                        "	color: rgb(255, 255, 255);\n"
+                                        "	border-radius:15px;\n"
+                                        "	background-color: rgb(30, 30, 30);\n"
+                                        "}\n"
+                                        "QPushButton:Hover {\n"
+                                        "	border-bottom: 2px solid blue;\n"
+                                        "	background-color: rgb(30, 30, 30);\n"
+                                        "\n"
+                                        "}")
+        self.Botonguardar.clicked.connect( lambda: self.guardar_recordatorio(id_tarea, id_usuario, fecha_vencimiento1, self.obtenerFechaHora()))
 
         # Crear botón de calendario
         self.botonCalendario = QPushButton(self.centralwidget)
@@ -44,21 +55,6 @@ class Ui_MainWindow(object):
         self.botonCalendario.setGeometry(QRect(900, 290, 51, 51))  # Posicionamiento del botón
         self.botonCalendario.clicked.connect(self.abrirCalendario)  # Conectar el botón al metodo abrirCalendario
 
-
-        self.Botonguardar = QPushButton(self.centralwidget)
-        self.Botonguardar.setObjectName(u"Botonguardar")
-        self.Botonguardar.setGeometry(QRect(110, 420, 791, 61))
-        self.Botonguardar.setFont(font1)
-        self.Botonguardar.setStyleSheet(u"QPushButton {\n"
-"	color: rgb(255, 255, 255);\n"
-"	border-radius:15px;\n"
-"	background-color: rgb(30, 30, 30);\n"
-"}\n"
-"QPushButton:Hover {\n"
-"	border-bottom: 2px solid blue;\n"
-"	background-color: rgb(30, 30, 30);\n"
-"\n"
-"}")
         self.iconocalendario = QLabel(self.centralwidget)
         self.iconocalendario.setObjectName(u"iconocalendario")
         self.iconocalendario.setGeometry(QRect(80, 50, 61, 61))
@@ -66,19 +62,24 @@ class Ui_MainWindow(object):
         self.iconocalendario.setScaledContents(True)
         self.iconocampana = QLabel(self.centralwidget)
         self.iconocampana.setObjectName(u"iconocampana")
-        self.iconocampana.setGeometry(QRect(110, 190, 51, 51))
+        self.iconocampana.setGeometry(QRect(110, 180, 51, 51))
         self.iconocampana.setPixmap(QPixmap(u":/icono/campana.png"))
         self.iconocampana.setScaledContents(True)
+        self.fecha = QTextEdit(self.centralwidget)
+        self.fecha.setObjectName(u"fecha")
+        self.fecha.setGeometry(QRect(110, 290, 791, 51))
+        font3 = QFont()
+        font3.setPointSize(14)
+        self.fecha.setFont(font3)
+        self.fecha.setStyleSheet(u"QTextEdit{\n"
+                                 "    border-radius: 20px;\n"
+                                 "    border: 6px solid #FFFFFF;\n"
+                                 "    \n"
+                                 "}")
         self.recordatorioError = QLabel(self.centralwidget)
         self.recordatorioError.setObjectName(u"label")
-        self.recordatorioError.setGeometry(QRect(120, 355, 771, 31))
-        font2 = QFont()
-        font2.setPointSize(12)
-        self.recordatorioError.setFont(font2)
-        self.recordatorioError.setStyleSheet(u"QLabel {\n"
-"color: rgb(255, 0, 4);\n"
-"\n"
-"}")
+        self.recordatorioError.setGeometry(QRect(117, 358, 771, 41))
+        self.recordatorioError.setStyleSheet(u"color: rgb(255, 0, 4);")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -101,17 +102,14 @@ class Ui_MainWindow(object):
 
     # Metodo para asignar la fecha seleccionada al campo de texto
     def asignarFechaHora(self, calendario_ui):
-        # Captura la fecha seleccionada y la hora actual
-        fecha_seleccionada = calendario_ui.calendarWidget.selectedDate()
-        hora_seleccionada = calendario_ui.time_edit.time()
+        fecha_hora = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
+        self.fecha.setText(fecha_hora)  # Asignar la fecha y hora al QTextEdit
+        self.calendario_dialog.accept()  # Cerrar el diálogo
+        print(fecha_hora)
 
-        # Combina la fecha y hora en el formato deseado
-        fecha_hora = f"{fecha_seleccionada.toString('dd/MM/yyyy')} {hora_seleccionada.toString('HH:mm')}"
-
-        # Asigna la fecha y hora al QTextEdit
-        self.fecha.setDateTime(QDateTime.fromString(fecha_hora, "dd/MM/yyyy HH:mm"))
-        self.calendario_dialog.accept()  # Cierra el diálogo
-
+    def obtenerFechaHora(self):
+        # Esta función devolverá la fecha y hora seleccionadas desde el QTextEdit
+        return self.fecha.toPlainText().strip()
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
@@ -127,8 +125,19 @@ class Ui_MainWindow(object):
         self.Botonguardar.setText(QCoreApplication.translate("MainWindow", u"Guardar", None))
         self.iconocalendario.setText("")
         self.iconocampana.setText("")
+        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"DD/MM/YYYY  HH:MM", None))
         self.recordatorioError.setText("")
     # retranslateUi
+
+
+    def guardar_recordatorio(self, id_tarea, id_usuario, fecha_vencimiento1,fecha):
+        recordatorio1 = Recordatorio()
+        exito, mensaje = recordatorio1.agregar_recordatorio(id_tarea, fecha, fecha_vencimiento1)
+        if exito:
+            print("se agrego recordatorio exitosamente")
+        else:
+            print("error al agregar recordatorio")
+
 
 if __name__ == "__main__":
     import sys

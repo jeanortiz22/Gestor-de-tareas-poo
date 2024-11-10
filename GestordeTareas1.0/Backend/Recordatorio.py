@@ -12,7 +12,7 @@ class Recordatorio:
     def agregar_recordatorio(self, id_tarea, fecha_recordatorio, fecha_vencimiento):
         if fecha_recordatorio >= fecha_vencimiento:
             print(f"Error: La fecha del recordatorio ({fecha_recordatorio}) debe ser anterior a la fecha de vencimiento ({fecha_vencimiento}).")
-            return
+            return False, f"Error: La fecha del recordatorio ({fecha_recordatorio}) debe ser anterior a la fecha de vencimiento ({fecha_vencimiento})."
 
         conn = None
         try:
@@ -26,6 +26,7 @@ class Recordatorio:
                 cursor.execute(insertar_sql, valores)
                 conn.commit()
                 print("Recordatorio agregado exitosamente.")
+                return True, "Recordatorio agregado exitosamente."
         except Exception as e:
             print(f"Error al agregar el recordatorio: {e}")
             if conn:

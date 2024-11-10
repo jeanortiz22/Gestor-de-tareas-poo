@@ -282,7 +282,7 @@ class Ui_MainWindow(object):
                                             "\n"
                                             "}")
 
-            boton_recordatorio.clicked.connect(lambda _,id_tarea = tarea[0]: self.AbrirRecordatorio())
+            boton_recordatorio.clicked.connect(lambda _,id_tarea = tarea[0],fecha_vencimiento1 = tarea[3]: self.AbrirRecordatorio(id_tarea, id_usuario, fecha_vencimiento1))
             self.verticalLayout.addWidget(nueva_tarea)
         else:
             no_tareas_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -312,10 +312,10 @@ class Ui_MainWindow(object):
         self.window.show()
 
 
-    def AbrirRecordatorio(self):
+    def AbrirRecordatorio(self,id_tarea, id_usuario, fecha_vencimiento1):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiRecordatorio()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window, id_tarea, id_usuario, fecha_vencimiento1)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
 
     def AbrirBuscarTarea(self):
