@@ -79,7 +79,7 @@ class Escritorio(Recordatorio):
         notification.notify(
             title=titulo,
             message=mensaje,
-            timeout=10  # Duración de la notificación en segundos
+            timeout=40  # Duración de la notificación en segundos
         )
 
     def iniciar_verificacion_automatica(self):
@@ -87,7 +87,7 @@ class Escritorio(Recordatorio):
         def verificar_periodicamente():
             while True:
                 self.verificar_recordatorios()
-                time.sleep(60)  # Esperar 1 minuto antes de verificar nuevamente
+                time.sleep(30)  # Esperar 1 minuto antes de verificar nuevamente
 
         hilo = threading.Thread(target=verificar_periodicamente, daemon=True)
         hilo.start()

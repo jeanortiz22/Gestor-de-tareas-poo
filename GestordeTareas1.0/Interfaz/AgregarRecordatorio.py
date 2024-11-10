@@ -3,8 +3,9 @@ from PyQt5.QtCore import (QCoreApplication, QMetaObject,QRect, QSize,QDateTime)
 from PyQt5.QtGui import ( QFont, QPixmap, QColor)
 from PyQt5.QtWidgets import *
 from Calendario1 import Ui_CalendarioDialog
-from Backend.Recordatorio import Recordatorio
-from Backend.Tarea import Tarea
+from Backend.Recordatorio import Recordatorio, Escritorio
+from datetime import datetime
+
 
 import icono_rc
 
@@ -102,10 +103,19 @@ class Ui_MainWindow(object):
 
     # Metodo para asignar la fecha seleccionada al campo de texto
     def asignarFechaHora(self, calendario_ui):
-        fecha_hora2 = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
-        self.fecha.setText(fecha_hora2)  # Asignar la fecha y hora al QTextEdit
+        # Obtener la fecha y la hora seleccionadas
+        fecha_seleccionada = calendario_ui.calendarWidget.selectedDate()
+        hora_seleccionada = calendario_ui.time_edit.time()
+
+        # Crear el objeto QDateTime a partir de la fecha y hora seleccionadas
+        fecha_hora = QDateTime(fecha_seleccionada, hora_seleccionada)
+
+        # Convertir la fecha y hora al formato 'YYYY-MM-DD HH:MM:SS'
+        fecha_hora_formateada = fecha_hora.toString("yyyy-MM-dd HH:mm:ss")
+
+        # Asignar la fecha y hora formateada al QTextEdit
+        self.fecha.setText(fecha_hora_formateada)
         self.calendario_dialog.accept()  # Cerrar el diálogo
-        print(fecha_hora2)
 
     def obtenerFechaHora(self):
         # Esta función devolverá la fecha y hora seleccionadas desde el QTextEdit
@@ -129,15 +139,23 @@ class Ui_MainWindow(object):
         self.recordatorioError.setText("")
     # retranslateUi
 
+    def guardar_recordatorio(self, id_tarea, id_usuario, fecha_vencimiento1, fecha):
+        # Convertimos las fechas de string a datetime
+        fechamodi = datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S")
 
-    def guardar_recordatorio(self, id_tarea, id_usuario, fecha_vencimiento1,fecha):
+        print(fecha)
+        print(fecha_vencimiento1)
         recordatorio1 = Recordatorio()
-        exito, mensaje = recordatorio1.agregar_recordatorio(id_tarea, fecha, fecha_vencimiento1)
-        if exito:
-            print("se agrego recordatorio exitosamente")
-        else:
-            print("error al agregar recordatorio")
+        verificar = Escritorio()
 
+        exito, mensaje = recordatorio1.agregar_recordatorio(id_tarea, fechamodi, fecha_vencimiento1)
+
+        if exito:
+            print("Se agregó el recordatorio exitosamente")
+            verificar.iniciar_verificacion_automatica()
+            self.centralwidget.window().close()
+        else:
+            print("Error al agregar el recordatorio")
 
 if __name__ == "__main__":
     import sys
