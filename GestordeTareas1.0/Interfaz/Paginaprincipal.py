@@ -184,7 +184,7 @@ class Ui_MainWindow(object):
             comboBox_categoria.setGeometry(QtCore.QRect(430, 0, 151, 41))
             comboBox_categoria.setStyleSheet("background-color: rgb(255, 255, 255);")
             comboBox_categoria.addItem(tarea[4])
-            comboBox_categoria.addItems(['Completa','Incompleta','Pendiente'])  # Agrega tus categorías
+            comboBox_categoria.addItems(['🟢Completa','🔴Incompleta','🟨Pendiente'])  # Agrega tus categorías
 
             # Conectar el evento de cambio del ComboBox a la función de actualización de categoría
             comboBox_categoria.currentIndexChanged.connect(
