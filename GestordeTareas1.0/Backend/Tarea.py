@@ -174,7 +174,8 @@ class Tarea:
             if conn:
                 conn.close()
 
-    def obtener_tareas_usuario(self, id_usuario):
+    def obtener_tareas_usuario(self, id_usuario, texto_busqueda=None, estado=None, prioridad=None,
+                               fecha_vencimiento=None):
         conn = self.conexion.ConexionBaseDeDatos()
         if conn is None:
             print("Error al conectar a la base de datos.")
@@ -182,29 +183,42 @@ class Tarea:
 
         try:
             with conn.cursor() as cursor:
+                # Consulta base
                 sql = """
-                SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad 
-                FROM Tarea 
-                WHERE id_usuario = %s 
-                ORDER BY id_tarea DESC;
+                    SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad 
+                    FROM Tarea 
+                    WHERE id_usuario = %s
                 """
-                cursor.execute(sql, (id_usuario,))
+                # Filtros
+                filtros = [id_usuario]
+
+                # Agregar filtros condicionalmente
+                if texto_busqueda:
+                    sql += " AND (titulo ILIKE %s OR descripcion ILIKE %s)"
+                    filtros.extend([f"%{texto_busqueda}%", f"%{texto_busqueda}%"])
+                if estado:
+                    sql += " AND estado = %s"
+                    filtros.append(estado)
+                if prioridad:
+                    sql += " AND prioridad = %s"
+                    filtros.append(prioridad)
+                if fecha_vencimiento:
+                    sql += " AND fecha_vencimiento = %s"
+                    filtros.append(fecha_vencimiento)
+
+                # Ordenar por ID de tarea
+                sql += " ORDER BY id_tarea DESC"
+
+                # Ejecutar consulta con filtros
+                cursor.execute(sql, tuple(filtros))
                 tareas = cursor.fetchall()
 
                 if tareas:
-                    for tarea in tareas:
-                        print(f"Tarea ID: {tarea[0]}")
-                        print(f"Título: {tarea[1]}")
-                        print(f"Descripción: {tarea[2]}")
-                        print(f"Fecha de Vencimiento: {tarea[3]}")
-                        print(f"Estado: {tarea[4]}")
-                        print(f"Prioridad: {tarea[5]}")
-                        print("--------")
-
+                    return tareas
                 else:
                     print("No hay tareas para mostrar.")
 
-                return tareas
+                return []
 
         except Exception as e:
             print(f"Error al obtener las tareas: {e}")
