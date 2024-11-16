@@ -17,7 +17,8 @@ from Backend.Tarea import Tarea
 
 
 class Ui_Eliminar(object):
-    def setupUi(self, MainWindow,id_tarea,id_usuario):
+    def setupUi(self, MainWindow,id_tarea,id_usuario,mostrar_tareas):
+        self.mostrar_tareas = mostrar_tareas
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(406, 192)
         MainWindow.setMaximumSize(QtCore.QSize(406, 192))
@@ -85,6 +86,7 @@ class Ui_Eliminar(object):
         exito,mesaje =Elitarea.eliminar_tarea(id_tarea,id_usuario)
         if exito:
             self.centralwidget.window().close()
+            self.mostrar_tareas(id_usuario)
     def Cancelar(self):
         self.centralwidget.window().close()
 

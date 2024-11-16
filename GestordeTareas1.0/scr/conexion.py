@@ -9,7 +9,7 @@ class CConexion:
                 password='admin',
                 database='GestorTareas'
             )
-
+            return connection
         except Exception as ex:
             print(f"Error de conexión: {ex}")
             return None  # Devolver None en caso de error

@@ -92,7 +92,7 @@ class Ui_MainWindow(object):
                                         "	background-color: rgb(30, 30, 30);\n"
                                         "\n"
                                         "}")
-        self.BotonAgregarTarea.clicked.connect(self.AbrirAgregarTarea) # Conectar al metodo
+        self.BotonAgregarTarea.clicked.connect(lambda : self.AbrirAgregarTarea(id_usuario)) # Conectar al metodo
 
 
 
@@ -308,14 +308,14 @@ class Ui_MainWindow(object):
     def AbrirAgregarTarea(self,id_usuario):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = Uiagregar()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window,id_usuario)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window,id_usuario,self.mostrar_tareas)  # Inicializar la segunda ventana
         self.window.show()
 
 
     def AbrirRecordatorio(self,id_tarea, id_usuario, fecha_vencimiento1):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiRecordatorio()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window, id_tarea, id_usuario, fecha_vencimiento1)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window, id_tarea, id_usuario, fecha_vencimiento1,self.mostrar_tareas)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
 
     def AbrirBuscarTarea(self):
@@ -327,7 +327,7 @@ class Ui_MainWindow(object):
     def EliminarTarea(self,id_tarea,id_usuario):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiEliminar()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window,id_tarea,id_usuario)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window,id_tarea,id_usuario,self.mostrar_tareas)  # Inicializar la segunda ventana
         self.window.show()
 
     def EditarTarea(self,id_tarea, id_usuario):

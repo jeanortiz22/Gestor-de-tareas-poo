@@ -1,5 +1,7 @@
 from scr.conexion import CConexion
 from datetime import datetime
+import re
+
 
 class Tarea:
     def __init__(self, titulo='', descripcion='', fecha_creacion='', fecha_vencimiento='', estado=None, prioridad=None, id_usuario='', fecha_recordatorio=None):
@@ -14,13 +16,28 @@ class Tarea:
         self.conexion = CConexion()
 
     def agregar_tarea(self):
+        # Validación del título
         if len(self.titulo) > 20:
-            print("El titulo de la tarea no puede exceder los 30 caracteres")
-            return
+            print("El título de la tarea no puede exceder los 20 caracteres")
+            return None, "El título de la tarea no puede exceder los 20 caracteres"
 
         if len(self.titulo) == 0:
-            print("El titulo tiene que contener al menos 1 letra")
-            return
+            print("El título tiene que contener al menos 1 letra")
+            return None, "El título tiene que contener al menos 1 letra"
+
+        # Validación de la fecha de vencimiento
+        if not self.fecha_vencimiento:
+            return None, "Ingrese una fecha de vencimiento válida"
+
+        formato_fecha = r"^\d{2}/\d{2}/\d{4} \d{2}:\d{2}$"
+        if not re.match(formato_fecha, self.fecha_vencimiento):
+            return None, "Ingrese una fecha de vencimiento válida en el formato 'dd/MM/yyyy HH:mm'"
+
+        try:
+            # Convertir la fecha de vencimiento al formato adecuado para la base de datos
+            fecha_vencimiento_bd = datetime.strptime(self.fecha_vencimiento, "%d/%m/%Y %H:%M")
+        except ValueError:
+            return None, "Error al procesar la fecha de vencimiento. Verifique el formato."
 
         conn = None
         try:
@@ -34,7 +51,7 @@ class Tarea:
                     self.titulo,
                     self.descripcion,
                     datetime.now(),  # Fecha de creación actual
-                    self.fecha_vencimiento,
+                    fecha_vencimiento_bd,  # Fecha de vencimiento convertida
                     self.estado,  # Esto será None hasta que se asigne una categoría
                     self.prioridad,  # Esto será None hasta que se asigne una etiqueta
                     self.id_usuario
@@ -44,11 +61,13 @@ class Tarea:
                 conn.commit()
 
                 print("Tarea agregada exitosamente.")
+                return True, "Tarea agregada exitosamente."
 
         except Exception as e:
             print(f"Error al agregar la tarea: {e}")
             if conn:
                 conn.rollback()
+            return None, f"Error al agregar la tarea: {e}"
 
         finally:
             if conn:
@@ -64,6 +83,8 @@ class Tarea:
         if len(nuevo_titulo) == 0:
             print("El titulo tiene que contener al menos 1 letra")
             return None ,"El titulo tiene que contener al menos 1 letra"
+
+
 
         conn = None
         try:

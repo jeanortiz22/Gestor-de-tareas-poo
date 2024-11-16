@@ -1,20 +1,22 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Calendario1 import Ui_CalendarioDialog
 from Backend.Tarea import Tarea
+from Calendario1 import Ui_CalendarioDialog
+
 
 
 class Ui_Agregar_MainWindow(object):
-    def setupUi(self, Agregar_MainWindow,id_usuario):
+    def setupUi(self, Agregar_MainWindow,id_usuario,mostrar_tareas):
+
+        self.mostrar_tareas = mostrar_tareas
+
         Agregar_MainWindow.setObjectName("Agregar_MainWindow")
         Agregar_MainWindow.resize(1001, 625)
         Agregar_MainWindow.setMouseTracking(False)
         Agregar_MainWindow.setMaximumSize(QtCore.QSize(1001, 625))
-
         self.centralwidget = QtWidgets.QWidget(Agregar_MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-
         self.Texto_Agregar = QtWidgets.QLabel(self.centralwidget)
-        self.Texto_Agregar.setGeometry(QtCore.QRect(70, 30, 211, 41))
+        self.Texto_Agregar.setGeometry(QtCore.QRect(90, 60,10000, 80))
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
@@ -54,6 +56,8 @@ class Ui_Agregar_MainWindow(object):
                                         "	background-color: rgb(30, 30, 30);\n"
                                         "\n"
                                         "}")
+        self.Guardar_Tarea.clicked.connect(lambda: self.AgregarTarea(id_usuario,self.obtenerFechaHora()))
+
 
 
         self.Texto_Titulo = QtWidgets.QLabel(self.centralwidget)
@@ -62,21 +66,18 @@ class Ui_Agregar_MainWindow(object):
         font.setPointSize(12)
         self.Texto_Titulo.setFont(font)
         self.Texto_Titulo.setObjectName("Texto_Titulo")
-
         self.Texto_Descripcion = QtWidgets.QLabel(self.centralwidget)
         self.Texto_Descripcion.setGeometry(QtCore.QRect(100, 230, 161, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.Texto_Descripcion.setFont(font)
         self.Texto_Descripcion.setObjectName("Texto_Descripcion")
-
         self.Texto_Fecha = QtWidgets.QLabel(self.centralwidget)
         self.Texto_Fecha.setGeometry(QtCore.QRect(100, 390, 131, 31))
         font = QtGui.QFont()
         font.setPointSize(12)
         self.Texto_Fecha.setFont(font)
         self.Texto_Fecha.setObjectName("Texto_Fecha")
-
         self.Seleccionar_Fecha = QtWidgets.QTextEdit(self.centralwidget)
         self.Seleccionar_Fecha.setEnabled(True)
         self.Seleccionar_Fecha.setGeometry(QtCore.QRect(100, 420, 791, 51))
@@ -92,14 +93,17 @@ class Ui_Agregar_MainWindow(object):
         self.Seleccionar_Fecha.setStyleSheet(u"QLineEdit{\n"
                                     "	border-radius:15px;\n"
                                     "}")
+        self.Mensaje_Resultado = QtWidgets.QLabel(self.centralwidget)
+        self.Mensaje_Resultado.setGeometry(QtCore.QRect(100, 560, 791, 30))  # Ajusta la posición según sea necesario
+        self.Mensaje_Resultado.setFont(font)
+        self.Mensaje_Resultado.setObjectName("Mensaje_Resultado")
+        self.Mensaje_Resultado.setStyleSheet("color: red;")  # Puedes cambiar el color según prefieras
 
         Agregar_MainWindow.setCentralWidget(self.centralwidget)
-
         self.menubar = QtWidgets.QMenuBar(Agregar_MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1001, 21))
         self.menubar.setObjectName("menubar")
         Agregar_MainWindow.setMenuBar(self.menubar)
-
         self.statusbar = QtWidgets.QStatusBar(Agregar_MainWindow)
         self.statusbar.setObjectName("statusbar")
         Agregar_MainWindow.setStatusBar(self.statusbar)
@@ -118,17 +122,13 @@ class Ui_Agregar_MainWindow(object):
         self.retranslateUi(Agregar_MainWindow)
         QtCore.QMetaObject.connectSlotsByName(Agregar_MainWindow)
 
-        # Conectar el botón de guardar con la acción de agregar tarea
-        self.Guardar_Tarea.clicked.connect(lambda: self.agregarTarea(id_usuario))
-
-
     def retranslateUi(self, Agregar_MainWindow):
         _translate = QtCore.QCoreApplication.translate
         Agregar_MainWindow.setWindowTitle(_translate("Agregar_MainWindow", "Agregar Tarea"))
-        self.Texto_Agregar.setText(_translate("Agregar_MainWindow", "Agregar Tarea "))
+        self.Texto_Agregar.setText(_translate("Agregar_MainWindow", "Agregar Tarea"))
         self.Guardar_Tarea.setText(_translate("Agregar_MainWindow", "Guardar"))
-        self.Texto_Titulo.setText(_translate("Agregar_MainWindow", "Titulo de la tarea"))
-        self.Texto_Descripcion.setText(_translate("Agregar_MainWindow", "Descripción de la tarea"))
+        self.Texto_Titulo.setText(_translate("Agregar_MainWindow", "Titulo"))
+        self.Texto_Descripcion.setText(_translate("Agregar_MainWindow", "Descripción "))
         self.Texto_Fecha.setText(_translate("Agregar_MainWindow", "Fecha limite"))
 
     def abrirCalendario(self):
@@ -147,63 +147,29 @@ class Ui_Agregar_MainWindow(object):
         fecha_hora = f"{calendario_ui.calendarWidget.selectedDate().toString('dd/MM/yyyy')} {calendario_ui.time_edit.time().toString('HH:mm')}"
         self.Seleccionar_Fecha.setText(fecha_hora)  # Asignar la fecha y hora al QTextEdit
         self.calendario_dialog.accept()  # Cerrar el diálogo
+        print(fecha_hora)
 
     def obtenerFechaHora(self):
         # Esta función devolverá la fecha y hora seleccionadas desde el QTextEdit
         return self.Seleccionar_Fecha.toPlainText().strip()
 
-    def agregarTarea(self, id_usuario):
-        """
-        Agrega una nueva tarea al sistema con validación de entrada y manejo de errores.
-        """
 
-        # Obtener datos del formulario
-        titulo = self.Ingresar_Nombre_Tarea.toPlainText().strip()
-        descripcion = self.Ingresar_Descripcion.toPlainText().strip()
-        fecha_hora = self.obtenerFechaHora()  # Obtiene la fecha/hora desde el campo correspondiente
-
-        # Validar datos
-        if not titulo:
-            self.mostrarMensajeResultado("El título no puede estar vacío.", tipo="error")
-            return
-        if not descripcion:
-            self.mostrarMensajeResultado("La descripción no puede estar vacía.", tipo="error")
-            return
-        if not fecha_hora:  # Si no hay fecha/hora seleccionada
+    def AgregarTarea(self,id_usuario,fecha_hora):
+        titulo=self.Ingresar_Nombre_Tarea.toPlainText().strip()
+        descripcion=self.Ingresar_Descripcion.toPlainText().strip()
+        AgregarUsuario = Tarea(titulo, descripcion, None, fecha_hora, None, None, id_usuario, None)
+        print(fecha_hora)
+        if fecha_hora == "":
             fecha_hora = None
+        exito,mensaje = AgregarUsuario.agregar_tarea()
 
-        # Interactuar con el backend
-        nueva_tarea = Tarea()
-        exito, mensaje = nueva_tarea.agregar_tarea(id_usuario, titulo, descripcion, fecha_hora)
-
-        # Manejar resultado
         if exito:
-            self.mostrarMensajeResultado("La tarea se ha guardado correctamente.", tipo="success")
-            self.limpiarFormulario()  # Limpia los campos después de guardar
+            self.mostrar_tareas(id_usuario)
+            self.centralwidget.window().hide()
+
+
         else:
-            self.mostrarMensajeResultado(mensaje, tipo="error")
-
-    def mostrarMensajeResultado(self, mensaje, tipo="info"):
-        """
-        Muestra un mensaje al usuario en el resultado del formulario.
-        Tipo puede ser 'success', 'error', o 'info'.
-        """
-        colores = {
-            "success": "green",
-            "error": "red",
-            "info": "blue"
-        }
-        color = colores.get(tipo, "black")
-        self.Mensaje_Resultado.setText(mensaje)
-        self.Mensaje_Resultado.setStyleSheet(f"color: {color};")
-
-    def limpiarFormulario(self):
-        """
-        Limpia los campos del formulario después de guardar una tarea.
-        """
-        self.Ingresar_Nombre_Tarea.clear()
-        self.Ingresar_Descripcion.clear()
-        self.Seleccionar_Fecha.clear()
+            self.Mensaje_Resultado.setText(mensaje)
 
 
 if __name__ == "__main__":

@@ -10,7 +10,9 @@ from datetime import datetime
 import icono_rc
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow, id_tarea, id_usuario, fecha_vencimiento1):
+    def setupUi(self, MainWindow, id_tarea, id_usuario, fecha_vencimiento1,mostrar_tareas):
+        self.mostrar_tareas =mostrar_tareas
+
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1001, 625)
@@ -154,7 +156,9 @@ class Ui_MainWindow(object):
             print("Se agregó el recordatorio exitosamente")
             verificar.iniciar_verificacion_automatica()
             self.centralwidget.window().close()
+            self.mostrar_tareas(id_usuario)
         else:
+            self.recordatorioError.setText(mensaje)
             print("Error al agregar el recordatorio")
 
 if __name__ == "__main__":
