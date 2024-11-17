@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
         self.Botonguardar.setText(QCoreApplication.translate("MainWindow", u"Guardar", None))
         self.iconocalendario.setText("")
         self.iconocampana.setText("")
-        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"DD/MM/YYYY  HH:MM", None))
+        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"YYYY/MM/DD  HH:MM:SS", None))
         self.recordatorioError.setText("")
     # retranslateUi
 

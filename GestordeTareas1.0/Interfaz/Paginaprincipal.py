@@ -252,7 +252,7 @@ class Ui_MainWindow(object):
             # Crear el botón de eliminar
             boton_eliminar = QtWidgets.QPushButton(nueva_tarea)
             boton_eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
-            icono_eliminar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")  # Cambia el nombre del archivo a tu icono
+            icono_eliminar = QIcon(r"C:\Users\andre\OneDrive\Desktop\POOrepos\GestordeTareas1.0\Interfaz\iconos\Basura.png")  # Cambia el nombre del archivo a tu icono
             boton_eliminar.setIcon(icono_eliminar)
             boton_eliminar.setIconSize(QtCore.QSize(32, 32))
 
@@ -262,7 +262,7 @@ class Ui_MainWindow(object):
 
             boton_editar = QtWidgets.QPushButton(nueva_tarea)
             boton_editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
-            icono_editar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\boton-editar.png")
+            icono_editar = QIcon(r"C:\Users\andre\OneDrive\Desktop\POOrepos\GestordeTareas1.0\Interfaz\iconos\boton-editar.png")
             boton_editar.setIcon(icono_editar)
             boton_editar.setIconSize(QtCore.QSize(32, 32))
             boton_editar.clicked.connect(lambda _, id_tarea=tarea[0]: self.EditarTarea(id_tarea, id_usuario))
