@@ -84,7 +84,16 @@ class Tarea:
             print("El titulo tiene que contener al menos 1 letra")
             return None ,"El titulo tiene que contener al menos 1 letra"
 
+        # Validar fecha de vencimiento
+        if nueva_fecha_vencimiento:
+            formato_fecha = r"^\d{2}/\d{2}/\d{4} \d{2}:\d{2}$"
+            if not re.match(formato_fecha, nueva_fecha_vencimiento):
+                return None, "Fecha límite inválida. Use el formato 'dd/MM/yyyy HH:mm'."
 
+            try:
+                nueva_fecha_vencimiento = datetime.strptime(nueva_fecha_vencimiento, "%d/%m/%Y %H:%M")
+            except ValueError:
+                return None, "Error al procesar la fecha límite. Use el formato 'dd/MM/yyyy HH:mm'."
 
         conn = None
         try:
