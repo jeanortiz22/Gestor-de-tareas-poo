@@ -13,6 +13,7 @@ class Recordatorio:
         if fecha_recordatorio >= fecha_vencimiento:
             print(f"Error: La fecha del recordatorio ({fecha_recordatorio}) debe ser anterior a la fecha de vencimiento ({fecha_vencimiento}).")
             return None, f"Error: La fecha del recordatorio ({fecha_recordatorio}) debe ser anterior a la fecha de vencimiento ({fecha_vencimiento})."
+
         if not fecha_recordatorio:
             return None,"Ingrese una fecha de recordatorio Valida"
 

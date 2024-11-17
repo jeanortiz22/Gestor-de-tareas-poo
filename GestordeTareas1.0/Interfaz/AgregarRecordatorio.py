@@ -139,13 +139,17 @@ class Ui_MainWindow(object):
         self.Botonguardar.setText(QCoreApplication.translate("MainWindow", u"Guardar", None))
         self.iconocalendario.setText("")
         self.iconocampana.setText("")
-        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"YYYY/MM/DD  HH:MM:SS", None))
+        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"YYYY-MM-DD  HH:MM:SS", None))
         self.recordatorioError.setText("")
     # retranslateUi
 
     def guardar_recordatorio(self, id_tarea, id_usuario, fecha_vencimiento1, fecha):
-        # Convertimos las fechas de string a datetime
-        fechamodi = datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S")
+        try:
+            # Convertimos las fechas de string a datetime
+            fechamodi = datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            self.recordatorioError.setText("Error: Formato de fecha inválido. Use 'YYYY-MM-DD HH:MM:SS'.")
+            return
 
         print(fecha)
         print(fecha_vencimiento1)
