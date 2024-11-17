@@ -1,63 +1,52 @@
-import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 from Backend.Tarea import Tarea
-from PyQt5.QtWidgets import QMessageBox  # Para mostrar mensajes de error
+
 
 class Ui_BuscarTareaMainWindow(object):
     def setupUi(self, BuscarTareaMainWindow):
         BuscarTareaMainWindow.setObjectName("BuscarTareaMainWindow")
         BuscarTareaMainWindow.resize(1800, 880)
-        BuscarTareaMainWindow.setStyleSheet("background-color: rgb(200, 200, 200);"
-                                            "background-color: rgb(211, 211, 211);")
-
+        BuscarTareaMainWindow.setStyleSheet("background-color: rgb(200, 200, 200);\n"
+"background-color: rgb(211, 211, 211);")
         self.centralwidget = QtWidgets.QWidget(BuscarTareaMainWindow)
         self.centralwidget.setObjectName("centralwidget")
-
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(260, 70, 701, 41))
         self.label_3.setStyleSheet("font: 28pt \"MS Shell Dlg 2\";")
         self.label_3.setObjectName("label_3")
-
         self.BuscarTarea = QtWidgets.QLineEdit(self.centralwidget)
         self.BuscarTarea.setGeometry(QtCore.QRect(270, 220, 341, 41))
-        self.BuscarTarea.setStyleSheet("background-color: rgb(255, 255, 255);"
-                                       "font: 15pt \"MS Shell Dlg 2\";")
+        self.BuscarTarea.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 15pt \"MS Shell Dlg 2\";")
         self.BuscarTarea.setObjectName("BuscarTarea")
-
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollArea.setGeometry(QtCore.QRect(270, 290, 881, 591))
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
-
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 879, 589))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-
         self.frame = QtWidgets.QFrame(self.scrollAreaWidgetContents)
         self.frame.setGeometry(QtCore.QRect(0, 0, 881, 221))
         self.frame.setStyleSheet("background-color: rgb(221, 221, 221);")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-
         self.Titulo = QtWidgets.QLabel(self.frame)
         self.Titulo.setGeometry(QtCore.QRect(0, 0, 281, 31))
         self.Titulo.setMaximumSize(QtCore.QSize(1080, 1920))
         self.Titulo.setStyleSheet("font: 20pt \"MS Shell Dlg 2\";")
         self.Titulo.setObjectName("Titulo")
-
         self.Descripcion = QtWidgets.QLabel(self.frame)
         self.Descripcion.setGeometry(QtCore.QRect(0, 40, 401, 131))
         self.Descripcion.setWordWrap(True)
         self.Descripcion.setObjectName("Descripcion")
-
         self.fechavencimiento = QtWidgets.QLabel(self.frame)
         self.fechavencimiento.setGeometry(QtCore.QRect(550, 40, 181, 131))
         self.fechavencimiento.setStyleSheet("background-color: rgb(154, 154, 154);")
         self.fechavencimiento.setWordWrap(True)
         self.fechavencimiento.setObjectName("fechavencimiento")
-
         self.comboBox = QtWidgets.QComboBox(self.frame)
         self.comboBox.setGeometry(QtCore.QRect(430, 0, 151, 41))
         self.comboBox.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -65,7 +54,6 @@ class Ui_BuscarTareaMainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
-
         self.comboBox_2 = QtWidgets.QComboBox(self.frame)
         self.comboBox_2.setGeometry(QtCore.QRect(290, 0, 141, 41))
         self.comboBox_2.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -73,51 +61,47 @@ class Ui_BuscarTareaMainWindow(object):
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
-
         self.recordatorio = QtWidgets.QLabel(self.frame)
         self.recordatorio.setGeometry(QtCore.QRect(730, 0, 151, 171))
         self.recordatorio.setStyleSheet("background-color: rgb(154, 154, 154);")
         self.recordatorio.setWordWrap(True)
         self.recordatorio.setObjectName("recordatorio")
-
         self.AgregarRecordatorio = QtWidgets.QPushButton(self.frame)
         self.AgregarRecordatorio.setGeometry(QtCore.QRect(750, 10, 121, 23))
         self.AgregarRecordatorio.setObjectName("AgregarRecordatorio")
 
         self.Eliminar = QtWidgets.QPushButton(self.frame)
         self.Eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
-        self.icono_eliminar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")
+        self.icono_eliminar=QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")
         self.Eliminar.setIcon(self.icono_eliminar)
         self.Eliminar.setIconSize(QtCore.QSize(32, 32))
 
+
+
         self.Editar = QtWidgets.QPushButton(self.frame)
         self.Editar.setGeometry(QtCore.QRect(670, 0, 61, 41))
-        self.icono_editar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\boton-editar.png")
+        self.icono_editar=QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\boton-editar.png")
         self.Editar.setIcon(self.icono_editar)
-        self.Editar.setIconSize(QtCore.QSize(32, 32))
+        self.Editar.setIconSize(QtCore.QSize(32,32))
+
+
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-
         self.Nombredepersona = QtWidgets.QLabel(self.centralwidget)
         self.Nombredepersona.setGeometry(QtCore.QRect(260, 120, 211, 41))
         self.Nombredepersona.setStyleSheet("font: 28pt \"MS Shell Dlg 2\";")
         self.Nombredepersona.setObjectName("Nombredepersona")
-
         BuscarTareaMainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(BuscarTareaMainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1800, 21))
         self.menubar.setObjectName("menubar")
         BuscarTareaMainWindow.setMenuBar(self.menubar)
-
         self.statusbar = QtWidgets.QStatusBar(BuscarTareaMainWindow)
         self.statusbar.setObjectName("statusbar")
         BuscarTareaMainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(BuscarTareaMainWindow)
         QtCore.QMetaObject.connectSlotsByName(BuscarTareaMainWindow)
-
-        # Conexión de búsqueda
-        self.BuscarTarea.textChanged.connect(self.buscar_tareas)
 
     def retranslateUi(self, BuscarTareaMainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -127,77 +111,19 @@ class Ui_BuscarTareaMainWindow(object):
         self.Descripcion.setText(_translate("BuscarTareaMainWindow", "TextLabel"))
         self.fechavencimiento.setText(_translate("BuscarTareaMainWindow", "TextLabel"))
         self.comboBox.setItemText(0, _translate("BuscarTareaMainWindow", "Media"))
-        self.comboBox.setItemText(1, _translate("BuscarTareaMainWindow", "Alto"))
-        self.comboBox.setItemText(2, _translate("BuscarTareaMainWindow", "Bajo"))
+        self.comboBox.setItemText(1, _translate("BuscarTareaMainWindow", "alto"))
+        self.comboBox.setItemText(2, _translate("BuscarTareaMainWindow", "bajo"))
         self.comboBox_2.setItemText(0, _translate("BuscarTareaMainWindow", "Completa"))
         self.comboBox_2.setItemText(1, _translate("BuscarTareaMainWindow", "Incompleta"))
         self.comboBox_2.setItemText(2, _translate("BuscarTareaMainWindow", "Pendiente"))
         self.recordatorio.setText(_translate("BuscarTareaMainWindow", "TextLabel"))
         self.AgregarRecordatorio.setText(_translate("BuscarTareaMainWindow", "Agregar recordatorio"))
+
         self.Nombredepersona.setText(_translate("BuscarTareaMainWindow", "TextLabel"))
-
-    def buscar_tareas(self):
-        try:
-            # Obtener el texto ingresado en el campo de búsqueda
-            texto_busqueda = self.BuscarTarea.text()
-
-            # Obtener los valores de los filtros
-            estado = self.comboBox_2.currentText()  # Obtiene el estado seleccionado
-            prioridad = self.comboBox.currentText()  # Obtiene la prioridad seleccionada
-            fecha_vencimiento = None  # Aquí podrías agregar un campo para filtrar por fecha si lo deseas
-
-            # Obtener las tareas del usuario usando la clase Tarea
-            tareas = Tarea.obtener_tareas_usuario(
-                id_usuario=1,  # Aquí debes obtener el id_usuario del contexto adecuado
-                texto_busqueda=texto_busqueda,
-                estado=estado if estado != "Todos" else None,
-                prioridad=prioridad if prioridad != "Todos" else None,
-                fecha_vencimiento=fecha_vencimiento
-            )
-
-            # Limpiar la vista anterior de tareas
-            self.limpiar_tareas()
-
-            # Mostrar las tareas que coinciden con la búsqueda
-            if tareas:
-                for tarea in tareas:
-                    self.mostrar_tarea(tarea)
-            else:
-                self.mostrar_error("No se encontraron tareas que coincidan con los filtros.")
-
-        except Exception as e:
-            # Mostrar un mensaje de error si algo sale mal
-            self.mostrar_error(f"Error al buscar tareas: {str(e)}")
-
-    def limpiar_tareas(self):
-        # Limpiar las tareas visualizadas
-        for widget in self.scrollAreaWidgetContents.findChildren(QtWidgets.QWidget):
-            widget.deleteLater()
-
-    def mostrar_tarea(self, tarea):
-        # Crear un widget para mostrar cada tarea
-        tarea_widget = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        tarea_layout = QtWidgets.QVBoxLayout(tarea_widget)
-
-        titulo_label = QtWidgets.QLabel(tarea['titulo'], tarea_widget)
-        descripcion_label = QtWidgets.QLabel(tarea['descripcion'], tarea_widget)
-        fecha_label = QtWidgets.QLabel(f"Vencimiento: {tarea['fecha_vencimiento']}", tarea_widget)
-
-        tarea_layout.addWidget(titulo_label)
-        tarea_layout.addWidget(descripcion_label)
-        tarea_layout.addWidget(fecha_label)
-
-        self.scrollAreaWidgetContents.layout().addWidget(tarea_widget)
-
-    def mostrar_error(self, mensaje):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText(mensaje)
-        msg.setWindowTitle("Error")
-        msg.exec_()
 
 
 if __name__ == "__main__":
+    import sys
     app = QtWidgets.QApplication(sys.argv)
     BuscarTareaMainWindow = QtWidgets.QMainWindow()
     ui = Ui_BuscarTareaMainWindow()

@@ -174,55 +174,90 @@ class Tarea:
             if conn:
                 conn.close()
 
-    def obtener_tareas_usuario(self, id_usuario, texto_busqueda=None, estado=None, prioridad=None,
-                               fecha_vencimiento=None):
+    def obtener_tareas_usuario(self, id_usuario):
+        # Conexión a la base de datos
         conn = self.conexion.ConexionBaseDeDatos()
         if conn is None:
             print("Error al conectar a la base de datos.")
             return None
 
         try:
+            # Crear un cursor para ejecutar la consulta
             with conn.cursor() as cursor:
-                # Consulta base
+                # Consulta SQL para obtener las tareas del usuario
                 sql = """
-                    SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad 
-                    FROM Tarea 
+                    SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad
+                    FROM Tarea
                     WHERE id_usuario = %s
+                    ORDER BY id_tarea DESC;
                 """
-                # Filtros
-                filtros = [id_usuario]
-
-                # Agregar filtros condicionalmente
-                if texto_busqueda:
-                    sql += " AND (titulo ILIKE %s OR descripcion ILIKE %s)"
-                    filtros.extend([f"%{texto_busqueda}%", f"%{texto_busqueda}%"])
-                if estado:
-                    sql += " AND estado = %s"
-                    filtros.append(estado)
-                if prioridad:
-                    sql += " AND prioridad = %s"
-                    filtros.append(prioridad)
-                if fecha_vencimiento:
-                    sql += " AND fecha_vencimiento = %s"
-                    filtros.append(fecha_vencimiento)
-
-                # Ordenar por ID de tarea
-                sql += " ORDER BY id_tarea DESC"
-
-                # Ejecutar consulta con filtros
-                cursor.execute(sql, tuple(filtros))
+                cursor.execute(sql, (id_usuario,))
                 tareas = cursor.fetchall()
 
+                # Verificar si hay tareas y mostrarlas
                 if tareas:
-                    return tareas
+                    for tarea in tareas:
+                        print(f"Tarea ID: {tarea[0]}")
+                        print(f"Título: {tarea[1]}")
+                        print(f"Descripción: {tarea[2]}")
+                        print(f"Fecha de Vencimiento: {tarea[3]}")
+                        print(f"Estado: {tarea[4]}")
+                        print(f"Prioridad: {tarea[5]}")
+                        print("--------")
                 else:
                     print("No hay tareas para mostrar.")
 
-                return []
-
+                return tareas
         except Exception as e:
+            # Manejo de errores
             print(f"Error al obtener las tareas: {e}")
             return None
-
         finally:
+            # Cerrar la conexión a la base de datos
             conn.close()
+
+    def buscar_tareas(self, id_usuario, termino_busqueda):
+        """
+        Busca tareas por título, descripción, estado o prioridad para un usuario específico.
+
+        """
+        conn = None
+        try:
+            conn = self.conexion.ConexionBaseDeDatos()
+            with conn.cursor() as cursor:
+                # Consulta SQL para buscar tareas
+                sql = """
+                    SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad
+                    FROM Tarea
+                    WHERE id_usuario = %s AND 
+                          (titulo ILIKE %s OR 
+                           descripcion ILIKE %s OR 
+                           estado ILIKE %s OR 
+                           prioridad ILIKE %s)
+                    ORDER BY id_tarea DESC;
+                """
+                # Filtrar utilizando el término de búsqueda con comodines
+                termino_filtro = f"%{termino_busqueda}%"
+                cursor.execute(sql, (id_usuario, termino_filtro, termino_filtro, termino_filtro, termino_filtro))
+                tareas = cursor.fetchall()
+
+                # Formatear el resultado en una lista de diccionarios para facilitar su uso
+                lista_tareas = []
+                for tarea in tareas:
+                    lista_tareas.append({
+                        "id_tarea": tarea[0],
+                        "titulo": tarea[1],
+                        "descripcion": tarea[2],
+                        "fecha_vencimiento": tarea[3].strftime("%d/%m/%Y %H:%M") if tarea[3] else None,
+                        "estado": tarea[4],
+                        "prioridad": tarea[5]
+                    })
+
+                return lista_tareas
+
+        except Exception as e:
+            print(f"Error al buscar tareas: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
