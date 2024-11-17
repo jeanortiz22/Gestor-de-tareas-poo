@@ -82,7 +82,9 @@ class Ui_MainWindow(object):
         self.recordatorioError = QLabel(self.centralwidget)
         self.recordatorioError.setObjectName(u"label")
         self.recordatorioError.setGeometry(QRect(117, 358, 771, 41))
-        self.recordatorioError.setStyleSheet(u"color: rgb(255, 0, 4);")
+        self.recordatorioError.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";\n"
+                                            "color: rgb(255, 0, 4);")
+        self.recordatorioError.setWordWrap(True)  # Permitir salto de línea automático
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
