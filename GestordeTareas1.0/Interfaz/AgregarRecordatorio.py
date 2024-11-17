@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
                                  "    border: 6px solid #FFFFFF;\n"
                                  "    \n"
                                  "}")
-        self.recordatorioError = QLabel(self.centralwidget)
+        self.recordatorioError = QtWidgets.QLabel(self.centralwidget)
         self.recordatorioError.setObjectName(u"label")
         self.recordatorioError.setGeometry(QRect(117, 358, 771, 41))
         self.recordatorioError.setStyleSheet(u"color: rgb(255, 0, 4);")

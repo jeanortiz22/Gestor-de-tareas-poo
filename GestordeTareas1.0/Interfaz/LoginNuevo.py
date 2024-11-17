@@ -142,9 +142,10 @@ class Ui_MainWindow(object):
 
     def inicioSeccion(self):
         correo = self.INCorreo.toPlainText().strip()
+        coreomini = correo.lower()
         contrasena = self.INContrasena.text()
         usuario = Usuarios()
-        exito,mensaje, nombre = usuario.login(correo, contrasena)
+        exito,mensaje, nombre = usuario.login(coreomini, contrasena)
 
         if exito:
             id_usuario = mensaje
