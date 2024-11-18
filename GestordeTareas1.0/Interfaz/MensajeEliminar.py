@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'MensajeEliminar.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -76,7 +75,7 @@ class Ui_Eliminar(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.LetraEliminar.setText(_translate("MainWindow", "Deseas eliminar la Tarea?"))
+        self.LetraEliminar.setText(_translate("MainWindow", "¿Deseas eliminar la Tarea?"))
         self.Textoabajo.setText(_translate("MainWindow", "Si eliminas esta tarea, no podras recuperarla."))
         self.BotonCancelar.setText(_translate("MainWindow", "Cancelar"))
         self.BotonAceptar.setText(_translate("MainWindow", "Aceptar"))

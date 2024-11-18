@@ -82,7 +82,9 @@ class Ui_MainWindow(object):
         self.recordatorioError = QtWidgets.QLabel(self.centralwidget)
         self.recordatorioError.setObjectName(u"label")
         self.recordatorioError.setGeometry(QRect(117, 358, 771, 41))
-        self.recordatorioError.setStyleSheet(u"color: rgb(255, 0, 4);")
+        self.recordatorioError.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";\n"
+                                            "color: rgb(255, 0, 4);")
+        self.recordatorioError.setWordWrap(True)  # Permitir salto de línea automático
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -137,13 +139,17 @@ class Ui_MainWindow(object):
         self.Botonguardar.setText(QCoreApplication.translate("MainWindow", u"Guardar", None))
         self.iconocalendario.setText("")
         self.iconocampana.setText("")
-        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"DD/MM/YYYY  HH:MM", None))
+        self.fecha.setPlaceholderText(QCoreApplication.translate("MainWindow", u"YYYY-MM-DD  HH:MM:SS", None))
         self.recordatorioError.setText("")
     # retranslateUi
 
     def guardar_recordatorio(self, id_tarea, id_usuario, fecha_vencimiento1, fecha):
-        # Convertimos las fechas de string a datetime
-        fechamodi = datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S")
+        try:
+            # Convertimos las fechas de string a datetime
+            fechamodi = datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            self.recordatorioError.setText("Error: Formato de fecha inválido. Use 'YYYY-MM-DD HH:MM:SS'.")
+            return
 
         print(fecha)
         print(fecha_vencimiento1)

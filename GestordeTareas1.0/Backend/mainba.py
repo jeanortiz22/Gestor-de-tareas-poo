@@ -144,7 +144,7 @@ def buscar_tarea(Id_usuario):
         fecha_vencimiento = None
 
     tarea = Busqueda()
-    tarea.buscar_tarea(titulo=titulo, descripcion=descripcion, estado=estado, prioridad=prioridad, fecha_vencimiento=fecha_vencimiento)
+    tarea.buscar_tareas(titulo=titulo, descripcion=descripcion, estado=estado, prioridad=prioridad, fecha_vencimiento=fecha_vencimiento)
 
 def agregar_tarea(Id_usuario):
     print("Agregando tarea...")

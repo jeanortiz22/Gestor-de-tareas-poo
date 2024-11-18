@@ -84,7 +84,16 @@ class Tarea:
             print("El titulo tiene que contener al menos 1 letra")
             return None ,"El titulo tiene que contener al menos 1 letra"
 
+        # Validar fecha de vencimiento
+        if nueva_fecha_vencimiento:
+            formato_fecha = r"^\d{2}/\d{2}/\d{4} \d{2}:\d{2}$"
+            if not re.match(formato_fecha, nueva_fecha_vencimiento):
+                return None, "Fecha límite inválida. Use el formato 'dd/MM/yyyy HH:mm'."
 
+            try:
+                nueva_fecha_vencimiento = datetime.strptime(nueva_fecha_vencimiento, "%d/%m/%Y %H:%M")
+            except ValueError:
+                return None, "Error al procesar la fecha límite. Use el formato 'dd/MM/yyyy HH:mm'."
 
         conn = None
         try:
@@ -175,22 +184,26 @@ class Tarea:
                 conn.close()
 
     def obtener_tareas_usuario(self, id_usuario):
+        # Conexión a la base de datos
         conn = self.conexion.ConexionBaseDeDatos()
         if conn is None:
             print("Error al conectar a la base de datos.")
             return None
 
         try:
+            # Crear un cursor para ejecutar la consulta
             with conn.cursor() as cursor:
+                # Consulta SQL para obtener las tareas del usuario
                 sql = """
-                SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad 
-                FROM Tarea 
-                WHERE id_usuario = %s 
-                ORDER BY id_tarea DESC;
+                    SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad
+                    FROM Tarea
+                    WHERE id_usuario = %s
+                    ORDER BY id_tarea DESC;
                 """
                 cursor.execute(sql, (id_usuario,))
                 tareas = cursor.fetchall()
 
+                # Verificar si hay tareas y mostrarlas
                 if tareas:
                     for tarea in tareas:
                         print(f"Tarea ID: {tarea[0]}")
@@ -200,15 +213,14 @@ class Tarea:
                         print(f"Estado: {tarea[4]}")
                         print(f"Prioridad: {tarea[5]}")
                         print("--------")
-
                 else:
                     print("No hay tareas para mostrar.")
 
                 return tareas
-
         except Exception as e:
+            # Manejo de errores
             print(f"Error al obtener las tareas: {e}")
             return None
-
         finally:
+            # Cerrar la conexión a la base de datos
             conn.close()

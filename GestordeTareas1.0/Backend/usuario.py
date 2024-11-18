@@ -60,8 +60,8 @@ class Usuarios:
 
                 # Consulta SQL para insertar un nuevo usuario
                 sql = """
-                INSERT INTO usuarios (nombre_completo, correo, contraseña)
-                VALUES (%s, %s, %s);
+                    INSERT INTO usuarios (nombre_completo, correo, contraseña)
+                    VALUES (%s, %s, %s);
                 """
                 valores = (self.nombre, self.correo, self.contrasena)
 

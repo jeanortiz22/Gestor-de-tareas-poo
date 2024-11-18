@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\untitled.ui'
+
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -12,7 +12,7 @@ from Backend.Tarea import Tarea
 from Backend.Categoria import Categoria
 from Backend.Etiqueta import Etiqueta
 from Interfaz.AgregarTarea import Ui_Agregar_MainWindow as Uiagregar
-from BuscarTarea import Ui_BuscarTareaMainWindow as UiBuscar
+from Interfaz.BuscarTarea import Ui_BuscarTareaMainWindow as UiBuscar
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import (QRect)
 from PyQt5.QtGui import (QPixmap)
@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         self.BuscarTarea.setGeometry(QtCore.QRect(390, 150, 341, 41))
         self.BuscarTarea.setStyleSheet("background-color: rgb(255, 255, 255); font: 15pt 'MS Shell Dlg 2';")
         self.BuscarTarea.setObjectName("BuscarTarea")
-        self.BuscarTarea.clicked.connect(self.AbrirBuscarTarea)  # Conectar al metodo
+        self.BuscarTarea.clicked.connect(lambda : self.AbrirBuscarTarea(id_usuario,nombre))  # Conectar al metodo
 
         self.BotonAgregarTarea = QtWidgets.QPushButton(self.centralwidget)
         self.BotonAgregarTarea.setGeometry(QtCore.QRect(1150, 160, 121, 41))
@@ -184,7 +184,7 @@ class Ui_MainWindow(object):
             comboBox_categoria.setGeometry(QtCore.QRect(430, 0, 151, 41))
             comboBox_categoria.setStyleSheet("background-color: rgb(255, 255, 255);")
             comboBox_categoria.addItem(tarea[4])
-            comboBox_categoria.addItems(['Completa','Incompleta','Pendiente'])  # Agrega tus categorías
+            comboBox_categoria.addItems(['🟢Completa','🔴Incompleta','🟨Pendiente'])  # Agrega tus categorías
 
             # Conectar el evento de cambio del ComboBox a la función de actualización de categoría
             comboBox_categoria.currentIndexChanged.connect(
@@ -252,7 +252,7 @@ class Ui_MainWindow(object):
             # Crear el botón de eliminar
             boton_eliminar = QtWidgets.QPushButton(nueva_tarea)
             boton_eliminar.setGeometry(QtCore.QRect(620, 0, 51, 41))
-            icono_eliminar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\basura.png")  # Cambia el nombre del archivo a tu icono
+            icono_eliminar = QIcon(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\Basura.png")  # Cambia el nombre del archivo a tu icono
             boton_eliminar.setIcon(icono_eliminar)
             boton_eliminar.setIconSize(QtCore.QSize(32, 32))
 
@@ -318,10 +318,10 @@ class Ui_MainWindow(object):
         self.ui.setupUi(self.window, id_tarea, id_usuario, fecha_vencimiento1,self.mostrar_tareas)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
 
-    def AbrirBuscarTarea(self):
+    def AbrirBuscarTarea(self,id_usuario,nombre):
         self.window = QtWidgets.QMainWindow()  # Crear una nueva ventana
         self.ui = UiBuscar()  # Usar la clase de la segunda ventana
-        self.ui.setupUi(self.window)  # Inicializar la segunda ventana
+        self.ui.setupUi(self.window,id_usuario,nombre)  # Inicializar la segunda ventana
         self.window.show()  # Mostrar la
 
     def EliminarTarea(self,id_tarea,id_usuario):

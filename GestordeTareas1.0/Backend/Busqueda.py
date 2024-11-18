@@ -4,61 +4,48 @@ class Busqueda:
     def __init__(self):
         self.conexion = CConexion()
 
-    def buscar_tarea(self, titulo=None, descripcion=None, estado=None, prioridad=None, fecha_vencimiento=None):
+    def buscar_tareas(self, id_usuario, termino_busqueda):
+        """
+        Busca tareas por título, descripción, estado o prioridad para un usuario específico.
+
+        """
         conn = None
         try:
             conn = self.conexion.ConexionBaseDeDatos()
             with conn.cursor() as cursor:
-                # Condiciones de búsqueda
-                condiciones = []
-                valores = []
-
-                if titulo:
-                    condiciones.append("titulo LIKE %s")
-                    valores.append(f"%{titulo}%")
-
-                if descripcion:
-                    condiciones.append("descripcion LIKE %s")
-                    valores.append(f"%{descripcion}%")
-
-                if estado:
-                    condiciones.append("estado = %s")
-                    valores.append(estado)
-
-                if prioridad:
-                    condiciones.append("prioridad = %s")
-                    valores.append(prioridad)
-
-                if fecha_vencimiento:
-                    condiciones.append("fecha_vencimiento = %s")
-                    valores.append(fecha_vencimiento)
-
-                # Construir la consulta SQL con las condiciones
-                sql = "SELECT * FROM Tarea"
-                if condiciones:
-                    sql += " WHERE " + " AND ".join(condiciones)
-
-                cursor.execute(sql, valores)
+                # Consulta SQL para buscar tareas
+                sql = """
+                    SELECT id_tarea, titulo, descripcion, fecha_vencimiento, estado, prioridad
+                    FROM Tarea
+                    WHERE id_usuario = %s AND 
+                          (titulo ILIKE %s OR 
+                           descripcion ILIKE %s OR 
+                           estado ILIKE %s OR 
+                           prioridad ILIKE %s)
+                    ORDER BY id_tarea DESC;
+                """
+                # Filtrar utilizando el término de búsqueda con comodines
+                termino_filtro = f"%{termino_busqueda}%"
+                cursor.execute(sql, (id_usuario, termino_filtro, termino_filtro, termino_filtro, termino_filtro))
                 tareas = cursor.fetchall()
 
-                # Mostrar resultados solo con la información de las tareas
-                if tareas:
-                    for tarea in tareas:
-                        print("Información de la tarea:")
-                        print(f"- ID Tarea: {tarea[0]}")  # Suponiendo que el ID de la tarea es el primer elemento
-                        print(f"- Título: {tarea[1]}")
-                        print(f"- Descripción: {tarea[2]}")
-                        print(f"- Fecha de creación: {tarea[3]}")
-                        print(f"- Fecha de vencimiento: {tarea[4]}")
-                        print(f"- Estado: {tarea[5]}")
-                        print(f"- Prioridad: {tarea[6]}")
-                        print("--------------------------")
-                else:
-                    print("No se encontraron tareas que coincidan con los criterios de búsqueda.")
+                # Formatear el resultado en una lista de diccionarios para facilitar su uso
+                lista_tareas = []
+                for tarea in tareas:
+                    lista_tareas.append({
+                        "id_tarea": tarea[0],
+                        "titulo": tarea[1],
+                        "descripcion": tarea[2],
+                        "fecha_vencimiento": tarea[3].strftime("%d/%m/%Y %H:%M") if tarea[3] else None,
+                        "estado": tarea[4],
+                        "prioridad": tarea[5]
+                    })
+
+                return tareas
 
         except Exception as e:
-            print(f"Error al buscar tarea: {e}")
-
+            print(f"Error al buscar tareas: {e}")
+            return None
         finally:
             if conn:
                 conn.close()

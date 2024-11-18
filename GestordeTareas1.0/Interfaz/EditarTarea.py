@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Backend.Tarea import Tarea
 from Calendario1 import Ui_CalendarioDialog
-
+import re
 
 
 class Ui_Editar_MainWindow(object):
@@ -157,6 +157,12 @@ class Ui_Editar_MainWindow(object):
     def EditarTarea(self,id_tarea,id_usuario,fecha_hora):
         Ntitulo=self.Ingresar_Nombre_Tarea.toPlainText().strip()
         Ndescripcion=self.Ingresar_Descripcion.toPlainText().strip()
+
+        formato_fecha = r"^\d{2}/\d{2}/\d{4} \d{2}:\d{2}$"
+        if not fecha_hora or not re.match(formato_fecha, fecha_hora):
+            self.Mensaje_Resultado.setText("Fecha límite inválida. Use el formato 'dd/MM/yyyy HH:mm'.")
+            return
+
         EdiUsuario = Tarea()
         print(fecha_hora)
         if fecha_hora == "":
