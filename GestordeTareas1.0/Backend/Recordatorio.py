@@ -92,7 +92,7 @@ class Escritorio(Recordatorio):
         def verificar_periodicamente():
             while True:
                 self.verificar_recordatorios()
-                time.sleep(30)  # Esperar 1 minuto antes de verificar nuevamente
+                time.sleep(60)  # Esperar 1 minuto antes de verificar nuevamente
 
         hilo = threading.Thread(target=verificar_periodicamente, daemon=True)
         hilo.start()

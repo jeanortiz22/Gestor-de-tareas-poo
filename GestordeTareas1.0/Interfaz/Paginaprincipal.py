@@ -94,12 +94,10 @@ class Ui_MainWindow(object):
                                         "}")
         self.BotonAgregarTarea.clicked.connect(lambda : self.AbrirAgregarTarea(id_usuario)) # Conectar al metodo
 
-
-
         self.iconolibro = QLabel(self.centralwidget)
         self.iconolibro.setObjectName(u"iconolibro")
-        self.iconolibro.setGeometry(QRect(280, 20, 81, 71))
-        self.iconolibro.setPixmap(QPixmap(u":/icono/libro-abierto.png"))
+        self.iconolibro.setGeometry(QRect(250, 10, 120, 100))
+        self.iconolibro.setPixmap(QPixmap(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\libro-abierto.png"))
         self.iconolibro.setScaledContents(True)
 
         MainWindow.setCentralWidget(self.centralwidget)

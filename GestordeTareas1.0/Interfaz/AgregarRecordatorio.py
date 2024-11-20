@@ -2,12 +2,12 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import (QCoreApplication, QMetaObject,QRect, QSize,QDateTime)
 from PyQt5.QtGui import ( QFont, QPixmap, QColor)
 from PyQt5.QtWidgets import *
-from Calendario1 import Ui_CalendarioDialog
+from Interfaz.Calendario1 import Ui_CalendarioDialog
 from Backend.Recordatorio import Recordatorio, Escritorio
 from datetime import datetime
 
 
-import icono_rc
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, id_tarea, id_usuario, fecha_vencimiento1,mostrar_tareas):
@@ -61,12 +61,12 @@ class Ui_MainWindow(object):
         self.iconocalendario = QLabel(self.centralwidget)
         self.iconocalendario.setObjectName(u"iconocalendario")
         self.iconocalendario.setGeometry(QRect(80, 50, 61, 61))
-        self.iconocalendario.setPixmap(QPixmap(u":/icono/calendario.png"))
+        self.iconocalendario.setPixmap(QPixmap(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\calendario.png"))
         self.iconocalendario.setScaledContents(True)
         self.iconocampana = QLabel(self.centralwidget)
         self.iconocampana.setObjectName(u"iconocampana")
         self.iconocampana.setGeometry(QRect(110, 180, 51, 51))
-        self.iconocampana.setPixmap(QPixmap(u":/icono/campana.png"))
+        self.iconocampana.setPixmap(QPixmap(r"C:\Users\ivanv\Desktop\GestorTareas\GestordeTareas1.0\Interfaz\iconos\campana.png"))
         self.iconocampana.setScaledContents(True)
         self.fecha = QTextEdit(self.centralwidget)
         self.fecha.setObjectName(u"fecha")

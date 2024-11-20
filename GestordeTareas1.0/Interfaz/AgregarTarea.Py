@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Backend.Tarea import Tarea
-from Calendario1 import Ui_CalendarioDialog
+from Interfaz.Calendario1 import Ui_CalendarioDialog
 
 
 
